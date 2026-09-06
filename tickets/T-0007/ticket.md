@@ -1,7 +1,7 @@
 ---
 id: T-0007
 title: 'state.py + watcher.py: processed ledger and polling loop'
-state: queued
+state: in-progress
 kind: feature
 origin: agent
 created: '2026-09-05'
@@ -20,10 +20,35 @@ scope:
 - src/kicad_libsync/watcher.py
 - tests/unit/test_state.py
 - tests/unit/test_watcher.py
+- src/kicad_libsync/errors.py
+- src/kicad_libsync/importer.py
+- tests/integration/test_watcher_state.py
+- docs/design/03-watcher.md
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
 no_scope_declared_reason: null
+scope_changes:
+- op: add
+  glob: src/kicad_libsync/errors.py
+  reason: watcher needs these files for its waived symbols and tests
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/importer.py
+  reason: watcher needs these files for its waived symbols and tests
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: tests/integration/test_watcher_state.py
+  reason: watcher needs these files for its waived symbols and tests
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: docs/design/03-watcher.md
+  reason: watcher needs these files for its waived symbols and tests
+  actor: logan
+  at: '2026-09-05'
 designated_repro_test: null
 acceptance:
 - text: given a new zip, when polled twice with unchanged size, then it is imported

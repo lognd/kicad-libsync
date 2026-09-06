@@ -1,7 +1,7 @@
 ---
 id: T-0012
 title: Recovered from T-0004's phantom TICK006 citation of T-draft-c73563a0
-state: queued
+state: dropped
 kind: bug
 origin: agent
 created: '2026-09-05'
@@ -29,3 +29,6 @@ Auto-filed by the TICK006 Tier-A fix (T-1544): T-0004's Done report claimed T-dr
 > 2); full suite in tests/unit/test_project.py, tests/unit/test_libtable.py, tests/integration/test_project_tables.py
 
 Filed: none (a successor ticket T-draft-c73563a0 was filed and later dropped once the coordinator authorized deleting the waivers directly under T-0004, after T-0005 landed on main a
+
+## Drop reason
+- 2026-09-05: T-draft-c73563a0 was deliberately dropped and its directory removed after the coordinator authorized deleting the waivers directly; nothing to recover

@@ -1,7 +1,7 @@
 ---
 id: T-0002
 title: 'errors.py + sexpr.py: ErrorSets and minimal s-expression parse/emit'
-state: queued
+state: in-progress
 kind: feature
 origin: agent
 created: '2026-09-05'

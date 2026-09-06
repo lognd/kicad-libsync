@@ -27,6 +27,10 @@ scope:
 - src/kicad_libsync/footprints.py
 - docs/design/02-project-library-model.md
 - tests/unit/test_importer.py
+- tests/__init__.py
+- tests/unit/__init__.py
+- tests/integration/__init__.py
+- tests/system/__init__.py
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -70,6 +74,26 @@ scope_changes:
 - op: add
   glob: tests/unit/test_importer.py
   reason: unit tests for importer
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: tests/__init__.py
+  reason: package inits needed to disambiguate same-named test modules
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: tests/unit/__init__.py
+  reason: package inits needed to disambiguate same-named test modules
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: tests/integration/__init__.py
+  reason: package inits needed to disambiguate same-named test modules
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: tests/system/__init__.py
+  reason: package inits needed to disambiguate same-named test modules
   actor: logan
   at: '2026-09-05'
 designated_repro_test: null

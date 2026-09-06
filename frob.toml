@@ -11,6 +11,10 @@ profile = "rapid"
 [tickets]
 default_milestone = "v0.1"
 
+# scripts/ is release tooling, not the tool's API surface: no doc/test obligations.
+[graph]
+exclude = ["scripts/**"]
+
 # New projects start strict: no legacy-adoption baseline to dial back
 # (see frob's own frob.toml for what that dial looks like once a repo
 # has un-annotated legacy surface to grandfather in). Every rule below

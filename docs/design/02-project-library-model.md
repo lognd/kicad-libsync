@@ -3,7 +3,9 @@
 Covers `sexpr.py`, `project.py`, `libtable.py`, `symbols.py`,
 `footprints.py`, `importer.py`.
 
-## sexpr.py -- minimal s-expression support
+## sexpr
+
+(`src/kicad_libsync/sexpr.py`)
 
 KiCad files are s-expressions. We need: parse into a tree, find nodes,
 edit a string leaf, emit back. Round-trip fidelity of untouched formatting
@@ -31,7 +33,9 @@ quotes. Numbers are deliberately left as their source text: converting
 `1.27` to a float and back could change KiCad's formatting for no gain.
 Parse errors are `SexprError` values, never exceptions.
 
-## project.py -- KicadProject
+## project
+
+(`src/kicad_libsync/project.py`)
 
 ```python
 class KicadProject(BaseModel):
@@ -50,7 +54,9 @@ def locate(path: Path, lib_name: str | None) -> Result[KicadProject, ProjectErro
 `.kicad_pro` -> `ProjectError.NotAProject`; more than one and no explicit
 file -> `ProjectError.AmbiguousProject`.
 
-## libtable.py -- sym-lib-table / fp-lib-table
+## libtable
+
+(`src/kicad_libsync/libtable.py`)
 
 Both files share one grammar:
 
@@ -65,7 +71,9 @@ already registered. Missing file -> create with `(version 7)`. Name
 present with a DIFFERENT uri -> leave alone, return `Ok(False)`, WARNING
 (the user pointed the name somewhere on purpose).
 
-## symbols.py -- merging into `<Lib>.kicad_sym`
+## symbols
+
+(`src/kicad_libsync/symbols.py`)
 
 `merge_into(lib_path, lib_name, vendor_text, overwrite) -> Result[MergeOutcome, SymbolError]`
 
@@ -83,13 +91,17 @@ present with a DIFFERENT uri -> leave alone, return `Ok(False)`, WARNING
 
 `MergeOutcome(added: list[str], skipped: list[str], replaced: list[str])`.
 
-## footprints.py -- copying into `<Lib>.pretty`
+## footprints
+
+(`src/kicad_libsync/footprints.py`)
 
 `copy_into(pretty_dir, footprints, overwrite) -> Result[MergeOutcome, FootprintError]`.
 Create the directory if needed. Same skip/overwrite policy as symbols.
 Each file written atomically.
 
-## importer.py -- orchestration
+## importer
+
+(`src/kicad_libsync/importer.py`)
 
 ```python
 class ImportReport(BaseModel):

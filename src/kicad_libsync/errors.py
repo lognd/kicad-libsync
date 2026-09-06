@@ -9,8 +9,8 @@ from __future__ import annotations
 from typani import ErrorSet
 
 
-# frob:doc docs/design/00-overview.md#error-sets-errorspy
-# frob:tests tests/unit/test_sexpr.py::test_parse_errors_are_values
+# frob:doc docs/design/00-overview.md#errors
+# frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
 class SexprError(ErrorSet):
     UnexpectedEof = "Input ended inside an unclosed form or string"
     UnexpectedToken = "A closing paren or bare token appeared where a form was expected"
@@ -18,7 +18,7 @@ class SexprError(ErrorSet):
     EmptyForm = "A form with no head token: ()"
 
 
-# frob:doc docs/design/00-overview.md#error-sets-errorspy
+# frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_archive.py::test_rejects_non_library_zips
 # frob:waive WIRE001 reason="consumed by archive.py" follow_up="T-0003"
 class ArchiveError(ErrorSet):
@@ -31,7 +31,7 @@ class ArchiveError(ErrorSet):
     MemberReadFailed = "An archive member could not be read"
 
 
-# frob:doc docs/design/00-overview.md#error-sets-errorspy
+# frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_project.py::test_locate_errors
 # frob:waive WIRE001 reason="consumed by project.py" follow_up="T-0004"
 class ProjectError(ErrorSet):
@@ -40,7 +40,7 @@ class ProjectError(ErrorSet):
     ProjectPathMissing = "The given project path does not exist"
 
 
-# frob:doc docs/design/00-overview.md#error-sets-errorspy
+# frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_libtable.py::test_malformed_table_is_an_error
 # frob:waive WIRE001 reason="consumed by libtable.py" follow_up="T-0004"
 class LibTableError(ErrorSet):
@@ -49,7 +49,7 @@ class LibTableError(ErrorSet):
     TableWriteFailed = "The lib table could not be written"
 
 
-# frob:doc docs/design/00-overview.md#error-sets-errorspy
+# frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_symbols.py::test_malformed_inputs_are_errors
 # frob:waive WIRE001 reason="consumed by symbols.py" follow_up="T-0005"
 class SymbolError(ErrorSet):
@@ -59,14 +59,14 @@ class SymbolError(ErrorSet):
     LibraryWriteFailed = "The project .kicad_sym could not be written"
 
 
-# frob:doc docs/design/00-overview.md#error-sets-errorspy
+# frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_footprints.py::test_unwritable_dir_is_an_error
 # frob:waive WIRE001 reason="consumed by footprints.py" follow_up="T-0005"
 class FootprintError(ErrorSet):
     FootprintWriteFailed = "A .kicad_mod could not be written into the .pretty dir"
 
 
-# frob:doc docs/design/00-overview.md#error-sets-errorspy
+# frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_state.py::test_malformed_state_is_an_error
 # frob:waive WIRE001 reason="consumed by state.py" follow_up="T-0007"
 class StateError(ErrorSet):
@@ -76,7 +76,7 @@ class StateError(ErrorSet):
     HashFailed = "The zip could not be hashed"
 
 
-# frob:doc docs/design/00-overview.md#error-sets-errorspy
+# frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_app.py::test_bad_poll_is_a_config_error
 # frob:waive WIRE001 reason="consumed by app/config.py" follow_up="T-0008"
 class ConfigError(ErrorSet):

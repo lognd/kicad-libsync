@@ -85,7 +85,9 @@ Downloads/*.zip --(watcher: new + stable + not in state)--> archive.inspect
   `os.replace`. KiCad may have the file open.
 - Never touch files outside the project directory and the state file.
 
-## Error sets (`errors.py`)
+## errors
+
+(`src/kicad_libsync/errors.py`)
 
 One `ErrorSet` per module boundary: `SexprError`, `ArchiveError`,
 `ProjectError`, `LibTableError`, `SymbolError`, `FootprintError`,

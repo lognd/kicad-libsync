@@ -11,8 +11,10 @@ from kicad_libsync.logging import get_logger
 
 _log = get_logger(__name__)
 
+# frob:waive REF002 reason="symbols.py/libtable.py are the second consumers" follow_up="T-0004"
 
-# frob:doc docs/design/02-project-library-model.md#sexprpy----minimal-s-expression-support
+
+# frob:doc docs/design/02-project-library-model.md#sexpr
 # frob:tests tests/unit/test_sexpr.py::test_quoted_and_bare_atoms_are_distinguished
 class Str(str):
     """A string that was quoted in the source and must be re-quoted on emit."""
@@ -20,12 +22,12 @@ class Str(str):
     __slots__ = ()
 
 
-# frob:doc docs/design/02-project-library-model.md#sexprpy----minimal-s-expression-support
+# frob:doc docs/design/02-project-library-model.md#sexpr
 # frob:tests tests/unit/test_sexpr.py::test_quoted_and_bare_atoms_are_distinguished
 Atom = str  # a bare token; a quoted one is the Str subclass
 
 
-# frob:doc docs/design/02-project-library-model.md#sexprpy----minimal-s-expression-support
+# frob:doc docs/design/02-project-library-model.md#sexpr
 # frob:tests tests/unit/test_sexpr.py::test_dumps_of_hand_built_node
 @dataclass
 class Node:
@@ -34,27 +36,27 @@ class Node:
     head: str
     children: list[Node | Atom] = field(default_factory=list)
 
-    # frob:doc docs/design/02-project-library-model.md#sexprpy----minimal-s-expression-support
+    # frob:doc docs/design/02-project-library-model.md#sexpr
     # frob:tests tests/unit/test_sexpr.py::test_find_all_is_direct_children_only
     def find_all(self, head: str) -> list[Node]:
         """Direct child forms whose head matches; never recursive."""
         return [c for c in self.children if isinstance(c, Node) and c.head == head]
 
-    # frob:doc docs/design/02-project-library-model.md#sexprpy----minimal-s-expression-support
+    # frob:doc docs/design/02-project-library-model.md#sexpr
     # frob:tests tests/unit/test_sexpr.py::test_quoted_and_bare_atoms_are_distinguished
-    # frob:waive WIRE001 reason="used by symbols.py property lookup" follow_up="T-0005"
+    # frob:waive WIRE001 reason="symbols.py property lookup" follow_up="T-0005"
     def find(self, head: str) -> Node | None:
         """First direct child form with that head, or None."""
         found = self.find_all(head)
         return found[0] if found else None
 
-    # frob:doc docs/design/02-project-library-model.md#sexprpy----minimal-s-expression-support
+    # frob:doc docs/design/02-project-library-model.md#sexpr
     # frob:tests tests/unit/test_sexpr.py::test_quoted_and_bare_atoms_are_distinguished
     def atoms(self) -> list[Atom]:
         """Direct child atoms in order (strings, quoted or bare)."""
         return [c for c in self.children if not isinstance(c, Node)]
 
-    # frob:doc docs/design/02-project-library-model.md#sexprpy----minimal-s-expression-support
+    # frob:doc docs/design/02-project-library-model.md#sexpr
     # frob:tests tests/unit/test_sexpr.py::test_quoted_and_bare_atoms_are_distinguished
     def subforms(self) -> list[Node]:
         """Direct child forms in order."""
@@ -67,7 +69,7 @@ _OPEN = "("
 _CLOSE = ")"
 
 
-# frob:doc docs/design/02-project-library-model.md#sexprpy----minimal-s-expression-support
+# frob:doc docs/design/02-project-library-model.md#sexpr
 # frob:tests tests/unit/test_sexpr.py::test_escapes_survive_round_trip
 def quoted(s: str) -> str:
     """Wrap a string in KiCad quotes, escaping backslash, quote and newlines."""
@@ -150,7 +152,7 @@ def _parse_form(tokens: list[str], pos: int) -> Result[tuple[Node, int], SexprEr
     return Err(SexprError.UnexpectedEof)
 
 
-# frob:doc docs/design/02-project-library-model.md#sexprpy----minimal-s-expression-support
+# frob:doc docs/design/02-project-library-model.md#sexpr
 # frob:tests tests/unit/test_sexpr.py::test_parse_round_trips_through_dumps
 def parse(text: str) -> Result[Node, SexprError]:
     """Parse one top-level form; bare tokens stay str, quoted ones become Str."""
@@ -201,9 +203,9 @@ def _emit(node: Node, depth: int, out: list[str]) -> None:
     out.append(f"{indent})")
 
 
-# frob:doc docs/design/02-project-library-model.md#sexprpy----minimal-s-expression-support
+# frob:doc docs/design/02-project-library-model.md#sexpr
 # frob:tests tests/unit/test_sexpr.py::test_parse_round_trips_through_dumps
-# frob:waive WIRE001 reason="used by symbols.py and libtable.py writers" follow_up="T-0004"
+# frob:waive WIRE001 reason="used by symbols.py/libtable.py writers" follow_up="T-0004"
 def dumps(node: Node) -> str:
     """Emit KiCad-style text: atoms inline, one sub-form per tab-indented line."""
     out: list[str] = []

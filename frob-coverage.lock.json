@@ -1,0 +1,16 @@
+{
+  "module_line": {
+    "src/kicad_libsync/__init__.py": 100.0,
+    "src/kicad_libsync/__main__.py": 76.9,
+    "src/kicad_libsync/app/__init__.py": 100.0,
+    "src/kicad_libsync/app/app.py": 100.0,
+    "src/kicad_libsync/app/config.py": 81.2,
+    "src/kicad_libsync/errors.py": 100.0,
+    "src/kicad_libsync/logging/__init__.py": 100.0,
+    "src/kicad_libsync/logging/filter.py": 100.0,
+    "src/kicad_libsync/logging/formatter.py": 100.0,
+    "src/kicad_libsync/logging/logger.py": 100.0,
+    "src/kicad_libsync/sexpr.py": 98.5
+  },
+  "source_sha": "fb84bb489678567d64f37801652f4023caf4f464f30335e48d042140fc801c69"
+}

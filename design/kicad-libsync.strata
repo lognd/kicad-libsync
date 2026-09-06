@@ -160,22 +160,22 @@ vmodel_edge kind "satisfies" src spec_never_import_twice dst req_no_hand_copy;
 // tests, one per paired level
 vmodel_node t_customer_import kind "test" level "customer-test" runnable "tests/system/test_cli.py::test_import_end_to_end";
 
-vmodel_node t_plan_recognize kind "test" level "customer-test-plan" runnable "tests/unit/test_archive.py::test_inspect_real_ultra_librarian_zip";
+vmodel_node t_plan_recognize kind "test" level "customer-test-plan" runnable "tests/unit/test_archive.py::test_inspect_valid_zip_two_footprints";
 vmodel_node t_plan_project_libs kind "test" level "customer-test-plan" runnable "tests/system/test_cli.py::test_import_registers_project_local_libraries";
 vmodel_node t_plan_idempotent kind "test" level "customer-test-plan" runnable "tests/system/test_cli.py::test_second_import_is_a_no_op";
 
 vmodel_node t_sysint_pipeline kind "test" level "system-integration-test-plan" runnable "tests/integration/test_importer.py::test_import_twice_skips_everything";
 vmodel_node t_sysint_poll kind "test" level "system-integration-test-plan" runnable "tests/system/test_cli.py::test_watch_backfill_imports_once";
 
-vmodel_node t_subsys_merge kind "test" level "subsystem-integration-test-plan" runnable "tests/integration/test_merge_fixtures.py::test_both_fixtures_merge_into_one_library";
-vmodel_node t_subsys_tables kind "test" level "subsystem-integration-test-plan" runnable "tests/integration/test_project_tables.py::test_register_twice_yields_one_entry_each";
+vmodel_node t_subsys_merge kind "test" level "subsystem-integration-test-plan" runnable "tests/integration/test_merge_fixtures.py::test_merge_both_fixture_zips_into_one_project_library";
+vmodel_node t_subsys_tables kind "test" level "subsystem-integration-test-plan" runnable "tests/integration/test_project_tables.py::test_locate_and_register_libs_are_idempotent";
 vmodel_node t_subsys_stability kind "test" level "subsystem-integration-test-plan" runnable "tests/unit/test_watcher.py::test_zip_is_imported_once_after_it_stabilizes";
 
 vmodel_node t_unit_sexpr kind "test" level "component-unit-test" runnable "tests/unit/test_sexpr.py::test_parse_round_trips_through_dumps";
-vmodel_node t_unit_archive kind "test" level "component-unit-test" runnable "tests/unit/test_archive.py::test_rejects_non_library_zips";
-vmodel_node t_unit_symbols kind "test" level "component-unit-test" runnable "tests/unit/test_symbols.py::test_footprint_property_is_prefixed_with_library";
-vmodel_node t_unit_footprints kind "test" level "component-unit-test" runnable "tests/unit/test_footprints.py::test_existing_footprint_is_skipped_without_overwrite";
-vmodel_node t_unit_libtable kind "test" level "component-unit-test" runnable "tests/unit/test_libtable.py::test_ensure_entry_creates_then_is_idempotent";
+vmodel_node t_unit_archive kind "test" level "component-unit-test" runnable "tests/unit/test_archive.py::test_inspect_not_a_library_has_no_symbol";
+vmodel_node t_unit_symbols kind "test" level "component-unit-test" runnable "tests/unit/test_symbols.py::test_merge_into_real_fixture_zip";
+vmodel_node t_unit_footprints kind "test" level "component-unit-test" runnable "tests/unit/test_footprints.py::test_copy_into_skips_existing_without_overwrite";
+vmodel_node t_unit_libtable kind "test" level "component-unit-test" runnable "tests/unit/test_libtable.py::test_ensure_entry_twice_yields_one_entry";
 vmodel_node t_unit_project kind "test" level "component-unit-test" runnable "tests/unit/test_project.py::test_locate_derives_paths_from_stem";
 vmodel_node t_unit_state kind "test" level "component-unit-test" runnable "tests/unit/test_state.py::test_sha256_matches_hashlib";
 vmodel_node t_unit_watcher kind "test" level "component-unit-test" runnable "tests/unit/test_watcher.py::test_unstable_file_is_not_imported";

@@ -24,6 +24,9 @@ scope:
 - tests/unit/test_errors.py
 - frob.lock
 - design/kicad-libsync.strata
+- src/kicad_libsync/symbols.py
+- tests/unit/test_symbols.py
+- docs/design/02-project-library-model.md
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -57,6 +60,21 @@ scope_changes:
   glob: design/kicad-libsync.strata
   reason: frob.lock rewritten by the ack; strata pulled in by the overview doc anchor
     closure
+  actor: logan
+  at: '2026-09-06'
+- op: add
+  glob: src/kicad_libsync/symbols.py
+  reason: SnapMagic-prefixed Footprint property must have its vendor prefix replaced
+  actor: logan
+  at: '2026-09-06'
+- op: add
+  glob: tests/unit/test_symbols.py
+  reason: SnapMagic-prefixed Footprint property must have its vendor prefix replaced
+  actor: logan
+  at: '2026-09-06'
+- op: add
+  glob: docs/design/02-project-library-model.md
+  reason: SnapMagic-prefixed Footprint property must have its vendor prefix replaced
   actor: logan
   at: '2026-09-06'
 designated_repro_test: null

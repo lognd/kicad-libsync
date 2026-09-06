@@ -1,0 +1,19 @@
+{
+  "entries": {
+    "tests::exec": {
+      "accepted_count": 1,
+      "reason": "T-0014 baseline: system tests subprocess the CLI (tests/system/*.py); measured site count at ratchet introduction",
+      "ticket": "T-0014"
+    },
+    "tests::eval": {
+      "accepted_count": 1,
+      "reason": "T-0014 baseline: importlib/ast scanner self-match in tests/system/test_build.py",
+      "ticket": "T-0014"
+    },
+    "tests::fs": {
+      "accepted_count": 1,
+      "reason": "T-0014 baseline: tmp_path and fixture reads across tests/**",
+      "ticket": "T-0014"
+    }
+  }
+}

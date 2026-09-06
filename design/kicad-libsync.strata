@@ -44,9 +44,9 @@ node libsync : trusted {
 node tests : trusted {
     clearance Internal;
     code "tests/**";
-    may "fs";  // because: "tmp_path project dirs and fixture zips"
-    may "exec";  // because: "tests/system/* subprocess the CLI with a fixed argv ([sys.executable, '-m', 'kicad_libsync', ...]); nothing from a zip ever reaches an argv element"
-    may "eval";  // because: "importlib.import_module / ast.parse over the package in tests/system/test_build.py, a scanner self-match, not a dynamic sink"
+    may "fs" via "tests/**/*.py";  // because: "tmp_path project dirs and fixture zips"
+    may "exec" via "tests/system/*.py";  // because: "system tests subprocess the CLI with a fixed argv ([sys.executable, '-m', 'kicad_libsync', ...]); nothing from a zip ever reaches an argv element"
+    may "eval" via "tests/system/test_build.py";  // because: "importlib.import_module / ast.parse over the package, a scanner self-match, not a dynamic sink"
     // kill-switch: PYTEST_ADDOPTS="-k 'not system'" skips every exec site.
     attr flag=pytest_system_tests_kill_switch;
 }

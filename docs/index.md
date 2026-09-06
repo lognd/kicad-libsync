@@ -14,9 +14,12 @@ Watch a Downloads folder and merge vendor KiCad library zips (Ultra Librarian `K
 <!-- frob:describes src/kicad_libsync/logging/filter.py::BelowLevelFilter -->
 <!-- frob:describes src/kicad_libsync/logging/filter.py::BelowLevelFilter.filter -->
 
-`main` parses CLI args, builds an `AppConfig` from CLI/TOML, and runs `App`.
-The `logging` subpackage provides `get_logger`, wired per the house
-logging convention (stdout for DEBUG/INFO, stderr for WARNING+).
+`main` parses CLI args (`watch`/`import`/`status` subcommands), builds an
+`AppConfig` via `from_external` (CLI over env over the config file over
+Downloads detection), and runs `App`, which dispatches on `AppConfig.command`
+and returns the process exit code. The `logging` subpackage provides
+`get_logger`, wired per the house logging convention (stdout for DEBUG/INFO,
+stderr for WARNING+).
 
 ## Design docs
 

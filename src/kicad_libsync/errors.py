@@ -72,7 +72,6 @@ class StateError(ErrorSet):
 
 # frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
-# frob:waive WIRE001 reason="consumed by app/config.py" follow_up="T-0008"
 class ConfigError(ErrorSet):
     NoDownloadsDir = "No Downloads directory was given and none could be detected"
     BadPoll = "Poll interval must be a positive number of seconds"

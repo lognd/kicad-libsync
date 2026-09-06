@@ -1,7 +1,7 @@
 ---
 id: T-0008
 title: 'CLI + App + AppConfig: watch/import/status commands'
-state: in-progress
+state: done
 kind: feature
 origin: agent
 created: '2026-09-05'

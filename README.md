@@ -8,6 +8,8 @@ symbols into `<Lib>.kicad_sym`, both registered in the project lib tables.
 ```bash
 uv tool install /home/logan/projects/kicad-libsync
 kicad-libsync watch --project /mnt/c/Users/logan/Projects/LLC/stpone-schematic
+kicad-libsync import --project . vendor-package.zip
+kicad-libsync status --project .
 ```
 
 Design docs: [docs/design/](docs/design/README.md).

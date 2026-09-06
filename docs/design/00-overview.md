@@ -76,8 +76,8 @@ node id that verifies its paired level, and `frob check` (VMOD001) refuses
 an orphan requirement, an unjustified design element, or an artifact with
 no paired-level test. `frob sys audit` checks the topology's capability
 declarations against what the code actually does. The test harness is
-its own `tests` node; its `exec`/`eval`/`fs` grants are `via`-scoped to the
-files that use them, with the accepted site counts ratcheted in
+its own `tests` node; its `exec`/`eval`/`fs`/`env` grants are `via`-scoped
+to the files that use them, with the accepted site counts ratcheted in
 `docs/design/registry/capability-via-ratchet.lock.json`.
 
 ## Data flow

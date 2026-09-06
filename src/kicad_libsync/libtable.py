@@ -119,7 +119,6 @@ def ensure_entry(
 
 # frob:doc docs/design/02-project-library-model.md#libtable
 # frob:tests tests/unit/test_libtable.py::test_entries_returns_name_uri_pairs
-# frob:waive WIRE001 reason="consumed by status subcommand" follow_up="T-0008"
 def entries(table_path: Path) -> Result[list[tuple[str, str]], LibTableError]:
     """Return the (name, uri) pairs registered in a lib table."""
     kind: Literal["sym", "fp"] = "sym" if "sym" in table_path.name else "fp"

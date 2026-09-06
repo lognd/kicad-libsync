@@ -45,7 +45,6 @@ class ProcessedState(BaseModel):
 
 # frob:doc docs/design/03-watcher.md#state
 # frob:tests tests/unit/test_state.py::test_state_path_uses_xdg_state_home
-# frob:waive WIRE001 reason="consumed by app/app.py" follow_up="T-0008"
 def state_path() -> Path:
     """Return the per-user processed-state file path, honoring XDG_STATE_HOME."""
     base = os.environ.get("XDG_STATE_HOME")
@@ -55,7 +54,6 @@ def state_path() -> Path:
 
 # frob:doc docs/design/03-watcher.md#state
 # frob:tests tests/unit/test_state.py::test_malformed_state_is_an_error
-# frob:waive WIRE001 reason="consumed by app/app.py" follow_up="T-0008"
 def load(path: Path) -> Result[ProcessedState, StateError]:
     """Load ProcessedState from path; a missing file is an empty, fresh state."""
     if not path.exists():
@@ -86,7 +84,6 @@ def load(path: Path) -> Result[ProcessedState, StateError]:
 
 # frob:doc docs/design/03-watcher.md#state
 # frob:tests tests/unit/test_state.py::test_save_then_load_round_trips
-# frob:waive WIRE001 reason="consumed by watcher.py" follow_up="T-0008"
 def save(path: Path, state: ProcessedState) -> Result[None, StateError]:
     """Write state to path atomically (same-dir temp file plus os.replace)."""
     try:
@@ -114,7 +111,6 @@ def save(path: Path, state: ProcessedState) -> Result[None, StateError]:
 
 # frob:doc docs/design/03-watcher.md#state
 # frob:tests tests/unit/test_state.py::test_sha256_matches_hashlib
-# frob:waive WIRE001 reason="consumed by watcher.py" follow_up="T-0008"
 def sha256_of(path: Path) -> Result[str, StateError]:
     """Compute the SHA-256 hex digest of path's contents, reading in chunks."""
     digest = hashlib.sha256()
@@ -130,7 +126,6 @@ def sha256_of(path: Path) -> Result[str, StateError]:
 
 # frob:doc docs/design/03-watcher.md#state
 # frob:tests tests/unit/test_state.py::test_record_and_contains_round_trip
-# frob:waive WIRE001 reason="consumed by watcher.py" follow_up="T-0008"
 def key(digest: str, project_root: Path) -> str:
     """Build the state key: a zip's hash scoped to the project it was imported into."""
     return f"{digest}:{project_root}"

@@ -89,3 +89,13 @@ reason = "ledger v2 per-ticket files (ticket.md, done-report.md) are read by fro
 [[refs.entrypoint]]
 path = "tests/fixtures/*"
 reason = "real vendor zips read by path from tests; referenced by name only inside test bodies"
+
+[[docblocks.commands]]
+prog = "kicad-libsync"
+parser = "kicad_libsync.__main__:_build_parser"
+config = "kicad_libsync.app.config:AppConfig"
+forwarded = "kicad_libsync.app.config:FORWARDED_FIELD_NAMES"
+
+[[refs.entrypoint]]
+path = "docs/design/registry/capability-via-ratchet.lock.json"
+reason = "read by frob's SYS111 via-ratchet gate, never referenced by name from source"

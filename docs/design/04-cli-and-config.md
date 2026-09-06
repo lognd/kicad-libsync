@@ -39,7 +39,7 @@ class AppConfig(BaseModel):
     def from_external(cls, args, config_file=None) -> Result[AppConfig, ConfigError]
 ```
 
-`App.__call__` dispatches on `command`; `watch` runs `asyncio.run` and
-never returns, `import`/`status` return after printing. Exit code 1 when
-any import in `import` mode failed; the failure reason is printed once via
-`str(result)` (typani notes included).
+`App.__call__` dispatches on `command`; `watch` runs `asyncio.run` until
+`KeyboardInterrupt`, `import`/`status` return an exit code after logging.
+Exit code 1 when any import in `import` mode failed; the failure reason is
+logged once via `str(result)` (typani notes included).

@@ -22,7 +22,6 @@ _NOT_A_LIBRARY = (ArchiveError.NoSymbolLibrary, ArchiveError.NoFootprints)
 
 # frob:doc docs/design/03-watcher.md#watcher
 # frob:tests tests/unit/test_watcher.py::test_zip_is_imported_once_after_it_stabilizes
-# frob:waive WIRE001 reason="consumed by app/app.py" follow_up="T-0008"
 class Watcher:
     """Polling loop: new+stable zips in Downloads get hashed, checked, imported."""
 
@@ -147,7 +146,6 @@ class Watcher:
 
     # frob:doc docs/design/03-watcher.md#watcher
     # frob:tests tests/integration/test_watcher_state.py::test_run_imports_two_fixtures
-    # frob:waive WIRE001 reason="consumed by app/app.py" follow_up="T-0008"
     async def run(
         self,
         poll_seconds: float,

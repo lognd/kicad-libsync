@@ -2,7 +2,7 @@
 id: T-0020
 title: 'remove subcommand: drop a symbol (and its orphaned footprint) from the project
   library'
-state: queued
+state: in-progress
 kind: feature
 origin: human
 created: '2026-09-06'

@@ -1,0 +1,11 @@
+from kicad_libsync.app.config import AppConfig
+
+
+# frob:doc docs/index.md#public-api
+class App:
+    def __init__(self, cfg: AppConfig) -> None:
+        self._cfg = cfg
+
+    def __call__(self) -> None:
+        # TODO: implement app logic here
+        pass

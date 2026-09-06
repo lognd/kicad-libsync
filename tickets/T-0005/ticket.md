@@ -23,6 +23,7 @@ scope:
 - tests/integration/test_merge_fixtures.py
 - src/kicad_libsync/errors.py
 - docs/design/02-project-library-model.md
+- src/kicad_libsync/sexpr.py
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -44,9 +45,16 @@ scope_changes:
   reason: symbols/footprints doc anchors
   actor: logan
   at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/sexpr.py
+  reason: drop Node.find waiver satisfied by symbols.py
+  actor: logan
+  at: '2026-09-05'
 evidence:
 - tests/unit/test_symbols.py::test_merge_into_reports_added_names
 - tests/unit/test_symbols.py::test_merge_into_skips_existing_without_overwrite
+- tests/unit/test_footprints.py::test_copy_into_skips_existing_without_overwrite
+- tests/unit/test_footprints.py::test_copy_into_replaces_existing_with_overwrite
 designated_repro_test: null
 acceptance:
 - text: given a vendor symbol with bare Footprint X, when merged into lib L, then

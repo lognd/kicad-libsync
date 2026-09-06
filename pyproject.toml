@@ -41,6 +41,7 @@ pythonpath = ["."]
 
 [tool.ruff]
 line-length = 88
+extend-exclude = [".claude"]
 target-version = "py311"
 
 [tool.ruff.lint]
@@ -51,3 +52,6 @@ select = ["E", "F", "W", "I"]
 
 [tool.ruff.format]
 quote-style = "double"
+
+[tool.ty.src]
+exclude = [".claude/**"]

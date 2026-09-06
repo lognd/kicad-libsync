@@ -14,6 +14,7 @@ intent wins -- file a note in the doc and ask the human.
 | Symbol/footprint merge, lib tables (`sexpr.py`, `symbols.py`, `footprints.py`, `libtable.py`, `project.py`) | [02-project-library-model.md](02-project-library-model.md) |
 | The Downloads watcher and processed-state (`watcher.py`, `state.py`) | [03-watcher.md](03-watcher.md) |
 | CLI, config precedence, App wiring (`__main__.py`, `app/`) | [04-cli-and-config.md](04-cli-and-config.md) |
+| The strata system model / V-model graph                  | [design/kicad-libsync.strata](../../design/kicad-libsync.strata) via [00-overview.md](00-overview.md#system-model-and-v-model-designkicad-libsyncstrata) |
 | Tests for any module                                     | [05-testing-strategy.md](05-testing-strategy.md) |
 
 ## Locked decisions (do not re-litigate without asking the human)

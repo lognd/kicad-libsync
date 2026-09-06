@@ -18,6 +18,8 @@ module kicad_libsync
 
 // The user's browser drops vendor zips here. Foreign: every byte is
 // attacker-controllable (zip member paths, s-expression text).
+// frob:doc docs/design/00-overview.md#system-model-and-v-model-designkicad-libsyncstrata
+// frob:ticket T-0010
 store downloads : foreign {
     clearance Internal;
     managed;
@@ -25,64 +27,78 @@ store downloads : foreign {
 
 // The one process: watcher + importer + CLI. Reads zips into memory,
 // parses them, writes into the project.
+// frob:doc docs/design/00-overview.md#system-model-and-v-model-designkicad-libsyncstrata
+// frob:ticket T-0010
 node libsync : trusted {
     clearance Internal;
     code "src/kicad_libsync/**";
-    // fs: zipfile reads under downloads, atomic writes under the project
-    // and the state file; nothing else.
-    may "fs";
-    // env: XDG_STATE_HOME / KICAD_LIBSYNC_* configuration reads.
-    may "env";
+    may "fs";  // because: "zipfile reads under Downloads; atomic writes of the project library files and the per-user state file; nothing else"
+    may "env";  // because: "XDG_STATE_HOME and KICAD_LIBSYNC_* configuration reads"
 }
 
 // The test harness: pytest under tests/**. Separate node because it
 // legitimately does things the tool never does -- subprocess the CLI
 // (exec), importlib/ast over the package (eval), build zips in tmp_path.
+// frob:doc docs/design/00-overview.md#system-model-and-v-model-designkicad-libsyncstrata
+// frob:ticket T-0010
 node tests : trusted {
     clearance Internal;
     code "tests/**";
-    may "fs";
-    // exec: tests/system/* subprocess the CLI with a fixed argv
-    // ([sys.executable, "-m", "kicad_libsync", ...]); nothing from a zip
-    // or from Downloads ever reaches an argv element.
-    may "exec";
-    // eval: importlib.import_module / ast.parse over the package in
-    // tests/system/test_build.py, a scanner self-match, not a dynamic sink.
-    may "eval";
+    may "fs";  // because: "tmp_path project dirs and fixture zips"
+    may "exec";  // because: "tests/system/* subprocess the CLI with a fixed argv ([sys.executable, '-m', 'kicad_libsync', ...]); nothing from a zip ever reaches an argv element"
+    may "eval";  // because: "importlib.import_module / ast.parse over the package in tests/system/test_build.py, a scanner self-match, not a dynamic sink"
     // kill-switch: PYTEST_ADDOPTS="-k 'not system'" skips every exec site.
     attr flag=pytest_system_tests_kill_switch;
 }
 
 // The KiCad project directory (the .kicad_pro's parent): <Lib>.kicad_sym,
 // <Lib>.pretty/, sym-lib-table, fp-lib-table.
+// frob:doc docs/design/00-overview.md#system-model-and-v-model-designkicad-libsyncstrata
+// frob:ticket T-0010
 store project : trusted {
     clearance Internal;
     managed;
 }
 
 // $XDG_STATE_HOME/kicad-libsync/processed.json -- the idempotency ledger.
+// frob:doc docs/design/00-overview.md#system-model-and-v-model-designkicad-libsyncstrata
+// frob:ticket T-0010
 store state : trusted {
     clearance Internal;
     managed;
 }
 
 // rate: the poll loop reads at most one new zip per poll tick (2 s default).
+// frob:doc docs/design/00-overview.md#system-model-and-v-model-designkicad-libsyncstrata
+// frob:ticket T-0010
 flow f_downloads_libsync : downloads -> libsync { label Internal; rate 1 req/s; attr local; }
+// frob:doc docs/design/00-overview.md#system-model-and-v-model-designkicad-libsyncstrata
+// frob:ticket T-0010
 flow f_libsync_project : libsync -> project { label Internal; attr local; }
+// frob:doc docs/design/00-overview.md#system-model-and-v-model-designkicad-libsyncstrata
+// frob:ticket T-0010
 flow f_libsync_state : libsync -> state { label Internal; attr local; }
 // tests import the package (tier-2 import conformance needs the edge).
+// frob:doc docs/design/00-overview.md#system-model-and-v-model-designkicad-libsyncstrata
+// frob:ticket T-0010
 flow f_tests_libsync : tests -> libsync { label Internal; attr local; }
 
 // archive.inspect is the chokepoint where foreign bytes become typed
 // values: member paths are rejected if absolute or containing "..", and
 // nothing is ever extracted to disk.
+// frob:doc docs/design/00-overview.md#system-model-and-v-model-designkicad-libsyncstrata
+// frob:ticket T-0010
 boundary b_archive_inspect endorse f_downloads_libsync : foreign -> trusted when "archive_inspect_path_and_utf8_validation"
 
 // CWE-78 on the test harness: the only subprocess is the system test
 // invoking this repo's own CLI with a literal argv (see node tests above).
+// frob:doc docs/design/00-overview.md#system-model-and-v-model-designkicad-libsyncstrata
+// frob:ticket T-0010
 assume "weakness:CWE-78:tests" noflow downloads -> tests owner logan review "2026-12-01"
 
 // A zip can never write outside the project directory.
+// frob:doc docs/design/00-overview.md#system-model-and-v-model-designkicad-libsyncstrata
+// frob:ticket T-0010
 assert c_downloads_never_reach_state noflow downloads -> state
 
 // -- V-model spec graph ----------------------------------------------------

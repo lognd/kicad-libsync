@@ -19,3 +19,6 @@ FROBLEMS.md
 
 # secrets
 .env
+
+# agent worktrees
+.claude/worktrees/

@@ -63,6 +63,20 @@ kicad-libsync/
   docs/index.md        frob doc anchors for the public API
 ```
 
+## System model and V-model (`design/kicad-libsync.strata`)
+
+`design/kicad-libsync.strata` is the machine-checked half of this plan:
+the runtime topology (a foreign `downloads` store, the trusted `libsync`
+process, the `project` and `state` stores, and the `archive.inspect`
+trust boundary between them) plus the V-model spec graph. Every
+`vmodel_node` on the left (requirement -> requirement-specification ->
+system-specification -> system-design -> component-design) carries a
+`code_ref` into `src/`, every `test` node on the right carries the pytest
+node id that verifies its paired level, and `frob check` (VMOD001) refuses
+an orphan requirement, an unjustified design element, or an artifact with
+no paired-level test. `frob sys audit` checks the topology's capability
+declarations against what the code actually does.
+
 ## Data flow
 
 ```

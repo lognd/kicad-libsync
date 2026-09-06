@@ -16,10 +16,23 @@ runs_last_parallel_safe: false
 runs_last_parallel_safe_reason: null
 scope:
 - design/*
+- docs/design/registry/*
+- docs/design/00-overview.md
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
 no_scope_declared_reason: null
+scope_changes:
+- op: add
+  glob: docs/design/registry/*
+  reason: ratchet lock and doc touch
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: docs/design/00-overview.md
+  reason: ratchet lock and doc touch
+  actor: logan
+  at: '2026-09-05'
 designated_repro_test: null
 acceptance:
 - text: given design/kicad-libsync.strata, when frob check runs, then zero SELFAUDIT001

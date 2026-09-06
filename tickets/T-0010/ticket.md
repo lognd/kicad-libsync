@@ -24,11 +24,14 @@ scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
 no_scope_declared_reason: null
+evidence:
+- cmd:frob check --only vmodel exit=0 sha256=a123115014d2
 designated_repro_test: null
 acceptance:
 - text: given design/kicad-libsync.strata, when frob check --only vmodel runs, then
     zero VMOD001 findings
-  evidence: []
+  evidence:
+  - cmd:frob check --only vmodel exit=0 sha256=a123115014d2
 threat: null
 component: null
 anchor: false

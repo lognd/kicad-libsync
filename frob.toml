@@ -8,6 +8,9 @@ check_base = "main"
 [profile]
 profile = "rapid"
 
+[tickets]
+default_milestone = "v0.1"
+
 # New projects start strict: no legacy-adoption baseline to dial back
 # (see frob's own frob.toml for what that dial looks like once a repo
 # has un-annotated legacy surface to grandfather in). Every rule below
@@ -74,3 +77,7 @@ reason = "the package's own root module, imported by convention rather than refe
 [[refs.entrypoint]]
 path = "uv.lock"
 reason = "read by `uv sync`/`uv run` outside this repo's own tracked-file graph, one CI workflow mention is expected, not fragile"
+
+[[refs.entrypoint]]
+path = "tickets/*/ticket.md"
+reason = "ledger v2 per-ticket files are read by frob ticket, never referenced by name from source"

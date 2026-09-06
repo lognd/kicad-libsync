@@ -11,20 +11,25 @@ is NOT a goal; KiCad rewrites the file on save anyway. Emit uses KiCad's
 one-child-per-line style so diffs stay readable.
 
 ```python
-Atom = str | int | float
-class Node:  # (head child child ...)
+Atom = str                 # bare token, kept verbatim (numbers are NOT converted)
+class Str(str): ...        # a token that was quoted in the source
+class Node:                # (head child child ...)
     head: str
     children: list[Node | Atom]
+    def find_all(self, head) -> list[Node]   # direct child forms with that head
+    def find(self, head) -> Node | None
+    def atoms(self) -> list[Atom]            # direct child atoms
+    def subforms(self) -> list[Node]         # direct child forms
 def parse(text: str) -> Result[Node, SexprError]        # one top-level form
 def dumps(node: Node) -> str
-def find_all(node, head) -> list[Node]                  # direct children with head
 def quoted(s: str) -> str                               # KiCad string escaping
 ```
 
 Strings keep the distinction "was quoted" vs "bare token" so `(version
-20211014)` emits a bare int and `(property "Footprint" "X")` keeps its
-quotes. Represent a quoted string as a `Str` subclass of `str`; bare
-tokens stay plain `str`.
+20211014)` emits a bare token and `(property "Footprint" "X")` keeps its
+quotes. Numbers are deliberately left as their source text: converting
+`1.27` to a float and back could change KiCad's formatting for no gain.
+Parse errors are `SexprError` values, never exceptions.
 
 ## project.py -- KicadProject
 
@@ -70,7 +75,7 @@ present with a DIFFERENT uri -> leave alone, return `Ok(False)`, WARNING
 2. For each symbol rewrite `(property "Footprint" "FP")` to
    `"<lib_name>:FP"` when FP is non-empty and contains no `:` already.
    Leave `ki_fp_filters` alone (it is a name filter, not a reference).
-3. If `lib_path` does not exist, start from
+3. When `lib_path` is missing on disk, start from
    `(kicad_symbol_lib (version 20211014) (generator "kicad-libsync"))`.
    If it exists, parse it and append. Existing names: skip + WARNING, or
    replace when `overwrite`.

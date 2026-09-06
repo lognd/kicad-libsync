@@ -84,3 +84,14 @@ Downloads/*.zip --(watcher: new + stable + not in state)--> archive.inspect
 - All writes to the project are atomic: write to a sibling temp file, then
   `os.replace`. KiCad may have the file open.
 - Never touch files outside the project directory and the state file.
+
+## Error sets (`errors.py`)
+
+One `ErrorSet` per module boundary: `SexprError`, `ArchiveError`,
+`ProjectError`, `LibTableError`, `SymbolError`, `FootprintError`,
+`StateError`, `ConfigError`. Variant names are unique across ALL sets
+because typani refuses to union two sets sharing a name, and
+`importer.import_package` returns the union
+`ArchiveError | SymbolError | FootprintError | LibTableError`. Every
+variant string is the user-facing explanation; the CLI prints `str(err)`
+plus any typani notes, nothing else.

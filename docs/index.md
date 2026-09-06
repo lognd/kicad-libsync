@@ -17,3 +17,13 @@ Watch a Downloads folder and merge vendor KiCad library zips (Ultra Librarian `K
 `main` parses CLI args, builds an `AppConfig` from CLI/TOML, and runs `App`.
 The `logging` subpackage provides `get_logger`, wired per the house
 logging convention (stdout for DEBUG/INFO, stderr for WARNING+).
+
+## Design docs
+
+Module-by-module specs live in [design/](design/README.md):
+[00-overview](design/00-overview.md), [01-vendor-zip-format](design/01-vendor-zip-format.md),
+[02-project-library-model](design/02-project-library-model.md), [03-watcher](design/03-watcher.md),
+[04-cli-and-config](design/04-cli-and-config.md), [05-testing-strategy](design/05-testing-strategy.md).
+
+<!-- frob:external-reader dir=".github" reason="GitHub Actions reads the workflows; nothing in src references the directory" -->
+<!-- frob:external-reader dir="invariants" reason="frob's own INV gates read invariants/; empty placeholder from the scaffold" -->

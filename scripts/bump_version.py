@@ -8,6 +8,7 @@ import sys
 import tomllib
 from pathlib import Path
 
+# frob:waive COV001 reason="scaffold-provided release script constant, not part of the tool API"
 PYPROJECT = Path("pyproject.toml")
 
 with PYPROJECT.open("rb") as f:

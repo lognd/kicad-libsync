@@ -7,8 +7,9 @@ Read this first. It is the only doc with cross-cutting context.
 `kicad-libsync` is a global `uv tool` CLI. You point it at the KiCad
 project you are currently working on and at a Downloads folder. Every time
 a new zip lands in Downloads it checks whether the zip is a vendor KiCad
-library export (a `footprints.pretty/` directory plus a `.kicad_sym`
-schematic symbol library), and if so it copies the footprints into the
+library export (one or more `.kicad_mod` footprints, nested under a
+`.pretty/` dir by Ultra Librarian or flat at the root by SnapMagic, plus a
+`.kicad_sym` schematic symbol library), and if so it copies the footprints into the
 project's footprint library, merges the symbols into the project's symbol
 library, fixes the symbol's `Footprint` property to point at that
 library, and registers both libraries in the project lib tables. No more

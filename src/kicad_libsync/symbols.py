@@ -33,15 +33,23 @@ class MergeOutcome(BaseModel):
 
 
 def _rewrite_footprint(symbol: Node, lib_name: str) -> None:
-    """Rewrite a symbol's `Footprint` property to `<lib_name>:FP` in place."""
+    """Rewrite a symbol's `Footprint` property to `<lib_name>:FP` in place.
+
+    Ultra Librarian ships a bare footprint name; SnapMagic ships it prefixed
+    with its own library name. Either way the vendor prefix is replaced with
+    the project library so KiCad resolves it through the project fp-lib-table.
+    """
     for prop in symbol.find_all("property"):
         atoms = prop.atoms()
         if len(atoms) < 2 or atoms[0] != "Footprint":
             continue
-        fp = atoms[1]
-        if not fp or ":" in fp:
+        fp = str(atoms[1])
+        if not fp:
             continue
-        new_fp = Str(f"{lib_name}:{fp}")
+        bare = fp.split(":", 1)[1] if ":" in fp else fp
+        if fp != bare:
+            _log.debug("replacing vendor footprint prefix on %r with %s", fp, lib_name)
+        new_fp = Str(f"{lib_name}:{bare}")
         # atoms are the leading non-Node children of `prop.children`; replace
         # the first matching Footprint value atom in place.
         seen_head = False

@@ -85,8 +85,10 @@ present with a DIFFERENT uri -> leave alone, return `Ok(False)`, WARNING
 1. Parse vendor text; collect top-level `(symbol "NAME" ...)` children.
    Sub-units (`NAME_0_1`, `NAME_1_1`) are nested inside their parent in
    the v6 format, so only direct children of `kicad_symbol_lib` count.
-2. For each symbol rewrite `(property "Footprint" "FP")` to
-   `"<lib_name>:FP"` when FP is non-empty and contains no `:` already.
+2. For each symbol rewrite `(property "Footprint" "FP")` or
+   `"vendorlib:FP"` to `"<lib_name>:FP"` when FP is non-empty. Any
+   existing `lib:` prefix (SnapMagic uses the part name) is replaced, so
+   the reference resolves through the project fp-lib-table.
    Leave `ki_fp_filters` alone (it is a name filter, not a reference).
 3. When `lib_path` is missing on disk, start from
    `(kicad_symbol_lib (version 20211014) (generator "kicad-libsync"))`.

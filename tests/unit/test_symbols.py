@@ -109,6 +109,21 @@ def test_merge_into_real_fixture_zip(tmp_path: Path) -> None:
     assert fp_prop.atoms()[1] == "Proj:TO-236AB_SOT23_NEX"
 
 
+def test_merge_into_replaces_vendor_footprint_prefix(tmp_path: Path) -> None:
+    # frob:tests src/kicad_libsync/symbols.py::merge_into kind="unit"
+    # frob:ticket T-0021
+    # SnapMagic prefixes the Footprint with its own lib name; it must be
+    # replaced, not kept, or KiCad looks for a library that does not exist.
+    vendor_text = _load_vendor_zip_text("NAU7802KGI.zip")
+    lib_path = tmp_path / "Proj.kicad_sym"
+    outcome = merge_into(lib_path, "Proj", vendor_text).unwrap()
+    assert outcome.added == ["NAU7802KGI"]
+    root = parse(lib_path.read_text(encoding="utf-8")).unwrap()
+    symbol = root.find_all("symbol")[0]
+    fp_prop = [p for p in symbol.find_all("property") if p.atoms()[0] == "Footprint"][0]
+    assert fp_prop.atoms()[1] == "Proj:DIP792W45P254L1904H533Q16"
+
+
 _SECOND_SYMBOL = """(kicad_symbol_lib (version 20211014) (generator kicad_symbol_editor)
   (symbol "OTHER_PART" (pin_names (offset 0.254)) (in_bom yes) (on_board yes)
     (property "Reference" "Q" (id 0) (at 0 0 0)

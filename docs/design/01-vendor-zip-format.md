@@ -14,11 +14,15 @@ KiCADv6/footprints.pretty/TO-236AB_SOT23_NEX-L.kicad_mod
 Facts the parser relies on:
 
 - Exactly one `*.kicad_sym` somewhere in the archive, one or more
-  `*.kicad_mod` under a directory whose name ends in `.pretty`.
+  `*.kicad_mod` anywhere in it. Ultra Librarian nests them under a
+  `.pretty` directory; SnapMagic exports put them at the zip root next to
+  the symbol, a `.step` model, and an `.htm` readme.
 - The `.kicad_sym` is named after a timestamp, never after the part. The
   part name is the top-level `(symbol "NAME" ...)` inside it.
-- Each symbol's `Footprint` property is the BARE footprint name
-  (`TO-236AB_SOT23_NEX`), matching a `.kicad_mod` stem. `ki_fp_filters`
+- Each symbol's `Footprint` property names a `.kicad_mod` stem. Ultra
+  Librarian ships it BARE (`TO-236AB_SOT23_NEX`); SnapMagic prefixes it
+  with the part name (`NAU7802KGI:DIP792W45P254L1904H533Q16`). The
+  importer strips any vendor prefix before re-prefixing (see 02). `ki_fp_filters`
   lists the alternates (`-M`, `-L` density variants).
 - Symbol file version is `20211014`; properties carry `(id N)` tokens that
   newer KiCad writers omit. KiCad 10 still reads them.

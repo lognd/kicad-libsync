@@ -1,0 +1,21 @@
+{
+  "ack_log": [
+    {
+      "actor": "logan",
+      "at": "2026-09-06",
+      "facet": "sig",
+      "new_digest": "c7e5cb170f662f6501b48e066cc21cf2b54f3ec3772446fa7a29ffe775cd5830",
+      "old_digest": null,
+      "reason": "NoFootprints reworded for flat SnapMagic layout; overview catalogue still accurate",
+      "ref": "src/kicad_libsync/errors.py::ArchiveError"
+    }
+  ],
+  "entries": [
+    {
+      "digest": "c7e5cb170f662f6501b48e066cc21cf2b54f3ec3772446fa7a29ffe775cd5830",
+      "facet": "sig",
+      "ref": "src/kicad_libsync/errors.py::ArchiveError"
+    }
+  ],
+  "version": 1
+}

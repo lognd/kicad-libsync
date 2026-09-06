@@ -24,7 +24,7 @@ class ArchiveError(ErrorSet):
     NotAZip = "The file is not a readable zip archive"
     NoSymbolLibrary = "The archive contains no .kicad_sym file"
     AmbiguousSymbolLibrary = "The archive contains more than one .kicad_sym file"
-    NoFootprints = "The archive contains no .kicad_mod under a .pretty directory"
+    NoFootprints = "The archive contains no .kicad_mod members"
     UnsafePath = "An archive member path is absolute or escapes with .."
     NotUtf8 = "An archive member is not valid UTF-8 text"
     MemberReadFailed = "An archive member could not be read"

@@ -1,4 +1,4 @@
-"""Recognize Ultra Librarian vendor zip exports and load them as a VendorPackage."""
+"""Recognize Ultra Librarian and SnapMagic vendor zip exports as a VendorPackage."""
 
 from __future__ import annotations
 
@@ -36,7 +36,7 @@ def _is_unsafe(name: str) -> bool:
 # frob:tests tests/unit/test_archive.py::test_inspect_valid_zip_two_footprints
 # frob:boundary b_archive_inspect
 def inspect(zip_path: Path) -> Result[VendorPackage, ArchiveError]:
-    """Recognize an Ultra Librarian export in zip_path, reading members in memory."""
+    """Recognize an Ultra Librarian or SnapMagic export in zip_path, in memory."""
     try:
         zf = zipfile.ZipFile(zip_path)
     except (zipfile.BadZipFile, OSError) as exc:
@@ -61,14 +61,11 @@ def inspect(zip_path: Path) -> Result[VendorPackage, ArchiveError]:
             )
             return Err(ArchiveError.AmbiguousSymbolLibrary)
 
-        mod_names = [
-            n
-            for n in names
-            if n.endswith(".kicad_mod")
-            and PurePosixPath(n).parent.name.endswith(".pretty")
-        ]
+        # Ultra Librarian nests footprints under a .pretty dir; SnapMagic puts
+        # them at the zip root. Location does not matter, only the extension.
+        mod_names = [n for n in names if n.endswith(".kicad_mod")]
         if len(mod_names) == 0:
-            _log.debug("archive %s has no footprints under a .pretty dir", zip_path)
+            _log.debug("archive %s has no .kicad_mod members", zip_path)
             return Err(ArchiveError.NoFootprints)
 
         decoded = _read_utf8_members(zf, zip_path, [sym_names[0], *mod_names])

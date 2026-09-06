@@ -33,6 +33,17 @@ def test_inspect_valid_zip_one_footprint() -> None:
     assert "IND_2200RM_MUR" in pkg.footprints
 
 
+def test_inspect_snapmagic_flat_layout() -> None:
+    # frob:tests src/kicad_libsync/archive.py::inspect kind="unit"
+    # frob:ticket T-0021
+    # SnapMagic exports keep the .kicad_mod at the zip root, no .pretty dir.
+    result = inspect(FIXTURES / "NAU7802KGI.zip")
+    assert result.is_ok
+    pkg = result.danger_ok
+    assert list(pkg.footprints) == ["DIP792W45P254L1904H533Q16"]
+    assert "NAU7802KGI" in pkg.symbols_text
+
+
 def test_inspect_not_a_library_has_no_symbol() -> None:
     # frob:tests src/kicad_libsync/archive.py::inspect kind="unit"
     result = inspect(FIXTURES / "not-a-library.zip")
@@ -66,7 +77,7 @@ def test_inspect_no_footprints(tmp_path: Path) -> None:
     zip_path = tmp_path / "nofp.zip"
     with zipfile.ZipFile(zip_path, "w") as zf:
         zf.writestr("a.kicad_sym", "(kicad_symbol_lib)")
-        zf.writestr("not_pretty/x.kicad_mod", "(footprint x)")
+        zf.writestr("readme.htm", "<p>no footprints here</p>")
     result = inspect(zip_path)
     assert result.is_err
     assert result.danger_err is ArchiveError.NoFootprints

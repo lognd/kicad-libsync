@@ -26,6 +26,8 @@ Facts the parser relies on:
 
 ## Recognition rules
 
+### inspect
+
 `inspect(zip_path) -> Result[VendorPackage, ArchiveError]`
 
 1. Not a valid zip -> `ArchiveError.NotAZip`.
@@ -43,6 +45,8 @@ so a future SnapEDA/SamacSys export that happens to ship the same two
 pieces is accepted, and a zip of photos is rejected at rule 2.
 
 ## Output model
+
+### VendorPackage
 
 ```python
 class VendorPackage(BaseModel):

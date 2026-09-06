@@ -20,7 +20,6 @@ class SexprError(ErrorSet):
 
 # frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
-# frob:waive WIRE001 reason="consumed by archive.py" follow_up="T-0003"
 class ArchiveError(ErrorSet):
     NotAZip = "The file is not a readable zip archive"
     NoSymbolLibrary = "The archive contains no .kicad_sym file"

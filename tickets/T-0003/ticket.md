@@ -1,7 +1,7 @@
 ---
 id: T-0003
 title: 'archive.py: recognize Ultra Librarian zips into VendorPackage'
-state: in-progress
+state: done
 kind: feature
 origin: agent
 created: '2026-09-05'

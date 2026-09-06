@@ -5,6 +5,7 @@
     "src/kicad_libsync/app/__init__.py": 0.0,
     "src/kicad_libsync/app/app.py": 0.0,
     "src/kicad_libsync/app/config.py": 0.0,
+    "src/kicad_libsync/archive.py": 0.0,
     "src/kicad_libsync/errors.py": 0.0,
     "src/kicad_libsync/logging/__init__.py": 0.0,
     "src/kicad_libsync/logging/filter.py": 0.0,
@@ -12,5 +13,5 @@
     "src/kicad_libsync/logging/logger.py": 0.0,
     "src/kicad_libsync/sexpr.py": 0.0
   },
-  "source_sha": "209ad52f5de4f31eb7a79d2853ac723db09561a6a6b9d7c8a370622a7c8821c6"
+  "source_sha": "0e282833a9a53455bdf081fbe39239beadb07519840b74348c7fb70d2c86fde4"
 }

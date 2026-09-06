@@ -35,8 +35,6 @@ Parse errors are `SexprError` values, never exceptions.
 
 ## project
 
-<!-- frob:waive DOC006 reason="future-facing: project.py is built by T-0004" -->
-
 (`src/kicad_libsync/project.py`)
 
 ```python
@@ -49,7 +47,7 @@ class KicadProject(BaseModel):
     sym_table: Path       # root / "sym-lib-table"
     fp_table: Path        # root / "fp-lib-table"
 
-def locate(path: Path, lib_name: str | None) -> Result[KicadProject, ProjectError]
+def locate(path: Path, lib_name: str | None = None) -> Result[KicadProject, ProjectError]
 ```
 
 `locate` accepts a directory or a `.kicad_pro` path. A directory with zero
@@ -57,8 +55,6 @@ def locate(path: Path, lib_name: str | None) -> Result[KicadProject, ProjectErro
 file -> `ProjectError.AmbiguousProject`.
 
 ## libtable
-
-<!-- frob:waive DOC006 reason="future-facing: libtable.py is built by T-0004" -->
 
 (`src/kicad_libsync/libtable.py`)
 
@@ -71,7 +67,12 @@ Both files share one grammar:
 
 `ensure_entry(table_path, kind, lib_name, uri) -> Result[bool, LibTableError]`
 returns `Ok(True)` when it wrote a new entry, `Ok(False)` when the name was
-already registered. Missing file -> create with `(version 7)`. Name
+already registered. Missing file -> create with `(version 7)`.
+
+`entries(table_path) -> Result[list[tuple[str, str]], LibTableError]` returns
+the `(name, uri)` pairs already registered, for `status` to display later.
+
+Name
 present with a DIFFERENT uri -> leave alone, return `Ok(False)`, WARNING
 (the user pointed the name somewhere on purpose).
 

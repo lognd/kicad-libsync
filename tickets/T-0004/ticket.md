@@ -1,7 +1,7 @@
 ---
 id: T-0004
 title: 'project.py + libtable.py: locate project, ensure lib table entries'
-state: in-progress
+state: done
 kind: feature
 origin: agent
 created: '2026-09-05'

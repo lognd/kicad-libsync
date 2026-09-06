@@ -32,7 +32,6 @@ class ArchiveError(ErrorSet):
 
 # frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
-# frob:waive WIRE001 reason="consumed by project.py" follow_up="T-0004"
 class ProjectError(ErrorSet):
     NotAProject = "No .kicad_pro found at or under the given path"
     AmbiguousProject = "More than one .kicad_pro in the directory; pass the file"
@@ -41,7 +40,6 @@ class ProjectError(ErrorSet):
 
 # frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
-# frob:waive WIRE001 reason="consumed by libtable.py" follow_up="T-0004"
 class LibTableError(ErrorSet):
     TableReadFailed = "The lib table could not be read"
     TableMalformed = "The lib table did not parse as (sym_lib_table|fp_lib_table ...)"

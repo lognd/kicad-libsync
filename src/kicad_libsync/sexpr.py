@@ -11,8 +11,6 @@ from kicad_libsync.logging import get_logger
 
 _log = get_logger(__name__)
 
-# frob:waive REF002 reason="symbols.py is the second consumer" follow_up="T-0004"
-
 
 # frob:doc docs/design/02-project-library-model.md#sexpr
 # frob:tests tests/unit/test_sexpr.py::test_quoted_and_bare_atoms_are_distinguished
@@ -205,7 +203,6 @@ def _emit(node: Node, depth: int, out: list[str]) -> None:
 
 # frob:doc docs/design/02-project-library-model.md#sexpr
 # frob:tests tests/unit/test_sexpr.py::test_parse_round_trips_through_dumps
-# frob:waive WIRE001 reason="used by symbols.py/libtable.py writers" follow_up="T-0004"
 def dumps(node: Node) -> str:
     """Emit KiCad-style text: atoms inline, one sub-form per tab-indented line."""
     out: list[str] = []

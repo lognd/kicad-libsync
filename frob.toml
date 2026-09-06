@@ -83,8 +83,8 @@ path = "uv.lock"
 reason = "read by `uv sync`/`uv run` outside this repo's own tracked-file graph, one CI workflow mention is expected, not fragile"
 
 [[refs.entrypoint]]
-path = "tickets/*/ticket.md"
-reason = "ledger v2 per-ticket files are read by frob ticket, never referenced by name from source"
+path = "tickets/*/*.md"
+reason = "ledger v2 per-ticket files (ticket.md, done-report.md) are read by frob ticket, never referenced by name from source"
 
 [[refs.entrypoint]]
 path = "tests/fixtures/*"

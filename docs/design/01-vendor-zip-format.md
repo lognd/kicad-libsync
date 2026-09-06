@@ -47,10 +47,10 @@ pieces is accepted, and a zip of photos is rejected at rule 2.
 ```python
 class VendorPackage(BaseModel):
     model_config = {}
-    source: Path                      # the zip
-    symbols_text: str                 # the whole .kicad_sym
-    footprints: dict[str, str]        # stem -> .kicad_mod text
-    models: dict[str, bytes] = {}     # stem -> STEP bytes (reserved, T-3D)
+    source: Path  # the zip
+    symbols_text: str  # the whole .kicad_sym
+    footprints: dict[str, str]  # stem -> .kicad_mod text
+    models: dict[str, bytes] = {}  # stem -> STEP bytes (reserved, T-3D)
 ```
 
 The watcher calls `inspect` on every zip; a rejection at rule 2 or 3 is

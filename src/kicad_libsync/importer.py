@@ -43,7 +43,6 @@ class ImportReport(BaseModel):
 
     # frob:doc docs/design/02-project-library-model.md#importer
     # frob:tests tests/unit/test_importer.py::test_summary_reports_added_counts
-    # frob:waive WIRE001 reason="consumed by watcher.py/CLI" follow_up="T-0007"
     def summary(self) -> str:
         """One human-readable line summarizing what this import changed."""
         parts: list[str] = []
@@ -62,7 +61,6 @@ class ImportReport(BaseModel):
 
 # frob:doc docs/design/02-project-library-model.md#importer
 # frob:tests tests/integration/test_importer.py::test_import_twice_skips_everything
-# frob:waive WIRE001 reason="consumed by watcher.py/CLI" follow_up="T-0007"
 @propagate
 def import_package(
     project: KicadProject, pkg: VendorPackage, overwrite: bool = False
@@ -133,7 +131,6 @@ def import_package(
 
 # frob:doc docs/design/02-project-library-model.md#importer
 # frob:tests tests/integration/test_importer.py::test_import_twice_skips_everything
-# frob:waive WIRE001 reason="consumed by watcher.py/CLI" follow_up="T-0007"
 @propagate
 def import_zip(
     project: KicadProject, zip_path: Path, overwrite: bool = False

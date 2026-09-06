@@ -1,7 +1,7 @@
 ---
 id: T-0007
 title: 'state.py + watcher.py: processed ledger and polling loop'
-state: in-progress
+state: done
 kind: feature
 origin: agent
 created: '2026-09-05'
@@ -49,11 +49,14 @@ scope_changes:
   reason: watcher needs these files for its waived symbols and tests
   actor: logan
   at: '2026-09-05'
+evidence:
+- tests/unit/test_watcher.py::test_zip_is_imported_once_after_it_stabilizes
 designated_repro_test: null
 acceptance:
 - text: given a new zip, when polled twice with unchanged size, then it is imported
     once and its hash recorded
-  evidence: []
+  evidence:
+  - tests/unit/test_watcher.py::test_zip_is_imported_once_after_it_stabilizes
 threat: null
 component: null
 anchor: false

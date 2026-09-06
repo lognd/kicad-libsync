@@ -63,7 +63,6 @@ class FootprintError(ErrorSet):
 
 # frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
-# frob:waive WIRE001 reason="consumed by state.py" follow_up="T-0007"
 class StateError(ErrorSet):
     StateReadFailed = "The processed-state file could not be read"
     StateMalformed = "The processed-state file is not valid JSON for this version"

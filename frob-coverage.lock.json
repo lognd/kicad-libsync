@@ -16,7 +16,9 @@
     "src/kicad_libsync/logging/logger.py": 0.0,
     "src/kicad_libsync/project.py": 0.0,
     "src/kicad_libsync/sexpr.py": 0.0,
-    "src/kicad_libsync/symbols.py": 0.0
+    "src/kicad_libsync/state.py": 0.0,
+    "src/kicad_libsync/symbols.py": 0.0,
+    "src/kicad_libsync/watcher.py": 0.0
   },
-  "source_sha": "ca4f89c9f2168a99de06b2112318f213b5eefa14cdbd5eba050291961fc69c30"
+  "source_sha": "1c950fe12b33b61d390f63966ce55848dfc2d9a871d22da817b52448b033672b"
 }

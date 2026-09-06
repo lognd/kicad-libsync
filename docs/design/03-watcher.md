@@ -1,26 +1,41 @@
 # 03 -- Watcher and Processed State
 
-## state.py
+## state
 
 ```python
 class ProcessedState(BaseModel):
     model_config = {}
     version: int = 1
-    hashes: dict[str, str] = {}   # sha256 -> "<zip name> @ <iso time> -> <project root>"
+    hashes: dict[str, str] = {}   # key -> "<zip name> @ <iso time> -> <project root>"
+
+    def record(self, key: str, note: str) -> None    # mark key processed
+    def contains(self, key: str) -> bool              # already processed?
 
 def state_path() -> Path        # $XDG_STATE_HOME or ~/.local/state, /kicad-libsync/processed.json
 def load(path) -> Result[ProcessedState, StateError]   # missing file -> empty state
 def save(path, state) -> Result[None, StateError]      # atomic
 def sha256_of(path) -> Result[str, StateError]
+def key(digest: str, project_root: Path) -> str        # "<digest>:<project_root>"
 ```
 
 State is per-user, not per-project: a zip merged into project A and then
 wanted in project B is a legitimate re-import, so the hash key includes
-the project root (`sha256 + ":" + str(project.root)`).
+the project root (`state.key(digest, project.root)`).
 
-## watcher.py
+## watcher
 
-`watch(cfg, project, state) -> Unreachable` (async, `asyncio.run` from App).
+```python
+class Watcher:
+    def __init__(self, downloads: Path, project: KicadProject, state_path: Path,
+                 overwrite: bool = False, backfill: bool = False) -> None
+    def prime(self) -> None
+    def poll_once(self) -> list[ImportReport]
+    async def run(self, poll_seconds: float, sleep=asyncio.sleep) -> Unreachable
+```
+
+`Watcher.run` (async, driven by `asyncio.run` from App) loops `prime()`
+once, then `poll_once()`/`sleep` forever, printing each report's
+`summary()`.
 
 Loop every `poll_seconds` (default 2):
 

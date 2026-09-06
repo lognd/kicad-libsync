@@ -38,14 +38,19 @@ scope_changes:
     SymbolError/FootprintError
   actor: logan
   at: '2026-09-05'
+evidence:
+- tests/unit/test_symbols.py::test_merge_into_reports_added_names
+- tests/unit/test_symbols.py::test_merge_into_skips_existing_without_overwrite
 designated_repro_test: null
 acceptance:
 - text: given a vendor symbol with bare Footprint X, when merged into lib L, then
     the property reads L:X
-  evidence: []
+  evidence:
+  - tests/unit/test_symbols.py::test_merge_into_reports_added_names
 - text: given an existing symbol of the same name, when merged without overwrite,
     then it is skipped
-  evidence: []
+  evidence:
+  - tests/unit/test_symbols.py::test_merge_into_skips_existing_without_overwrite
 threat: null
 component: null
 anchor: false

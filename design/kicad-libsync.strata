@@ -27,12 +27,30 @@ store downloads : foreign {
 // parses them, writes into the project.
 node libsync : trusted {
     clearance Internal;
-    code "src/kicad_libsync/**" "tests/**";
+    code "src/kicad_libsync/**";
     // fs: zipfile reads under downloads, atomic writes under the project
     // and the state file; nothing else.
     may "fs";
     // env: XDG_STATE_HOME / KICAD_LIBSYNC_* configuration reads.
     may "env";
+}
+
+// The test harness: pytest under tests/**. Separate node because it
+// legitimately does things the tool never does -- subprocess the CLI
+// (exec), importlib/ast over the package (eval), build zips in tmp_path.
+node tests : trusted {
+    clearance Internal;
+    code "tests/**";
+    may "fs";
+    // exec: tests/system/* subprocess the CLI with a fixed argv
+    // ([sys.executable, "-m", "kicad_libsync", ...]); nothing from a zip
+    // or from Downloads ever reaches an argv element.
+    may "exec";
+    // eval: importlib.import_module / ast.parse over the package in
+    // tests/system/test_build.py, a scanner self-match, not a dynamic sink.
+    may "eval";
+    // kill-switch: PYTEST_ADDOPTS="-k 'not system'" skips every exec site.
+    attr flag=pytest_system_tests_kill_switch;
 }
 
 // The KiCad project directory (the .kicad_pro's parent): <Lib>.kicad_sym,
@@ -52,11 +70,17 @@ store state : trusted {
 flow f_downloads_libsync : downloads -> libsync { label Internal; rate 1 req/s; attr local; }
 flow f_libsync_project : libsync -> project { label Internal; attr local; }
 flow f_libsync_state : libsync -> state { label Internal; attr local; }
+// tests import the package (tier-2 import conformance needs the edge).
+flow f_tests_libsync : tests -> libsync { label Internal; attr local; }
 
 // archive.inspect is the chokepoint where foreign bytes become typed
 // values: member paths are rejected if absolute or containing "..", and
 // nothing is ever extracted to disk.
 boundary b_archive_inspect endorse f_downloads_libsync : foreign -> trusted when "archive_inspect_path_and_utf8_validation"
+
+// CWE-78 on the test harness: the only subprocess is the system test
+// invoking this repo's own CLI with a literal argv (see node tests above).
+assume "weakness:CWE-78:tests" noflow downloads -> tests owner logan review "2026-12-01"
 
 // A zip can never write outside the project directory.
 assert c_downloads_never_reach_state noflow downloads -> state

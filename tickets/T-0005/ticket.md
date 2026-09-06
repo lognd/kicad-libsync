@@ -1,7 +1,7 @@
 ---
 id: T-0005
 title: 'symbols.py + footprints.py: merge symbols and copy footprints with skip/overwrite'
-state: queued
+state: in-progress
 kind: feature
 origin: agent
 created: '2026-09-05'

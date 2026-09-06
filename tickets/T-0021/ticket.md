@@ -1,7 +1,7 @@
 ---
 id: T-0021
 title: 'Accept SnapMagic exports: .kicad_mod at zip root, no .pretty dir'
-state: queued
+state: in-progress
 kind: feature
 origin: human
 created: '2026-09-06'

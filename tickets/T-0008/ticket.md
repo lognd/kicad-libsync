@@ -29,6 +29,8 @@ scope:
 - docs/design/04-cli-and-config.md
 - tests/system/test_cli.py
 - design/kicad-libsync.strata
+- docs/design/00-overview.md
+- docs/design/registry/capability-via-ratchet.lock.json
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -72,6 +74,18 @@ scope_changes:
 - op: add
   glob: design/kicad-libsync.strata
   reason: declare env capability for new system test that copies the process environ
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: docs/design/00-overview.md
+  reason: adding env capability to tests node needs the ratchet lock and its narrating
+    overview doc touched too
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: docs/design/registry/capability-via-ratchet.lock.json
+  reason: adding env capability to tests node needs the ratchet lock and its narrating
+    overview doc touched too
   actor: logan
   at: '2026-09-05'
 designated_repro_test: null

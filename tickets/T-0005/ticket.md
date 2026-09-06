@@ -20,10 +20,17 @@ scope:
 - src/kicad_libsync/footprints.py
 - tests/unit/test_symbols.py
 - tests/unit/test_footprints.py
+- tests/integration/test_merge_fixtures.py
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
 no_scope_declared_reason: null
+scope_changes:
+- op: add
+  glob: tests/integration/test_merge_fixtures.py
+  reason: T-0005 adds an integration test binding symbols.py and footprints.py
+  actor: logan
+  at: '2026-09-05'
 designated_repro_test: null
 acceptance:
 - text: given a vendor symbol with bare Footprint X, when merged into lib L, then

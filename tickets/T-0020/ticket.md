@@ -32,10 +32,17 @@ scope:
 - docs/index.md
 - README.md
 - design/*
+- docs/design/00-overview.md
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
 no_scope_declared_reason: null
+scope_changes:
+- op: add
+  glob: docs/design/00-overview.md
+  reason: SymbolError gained SymbolInUse and AFFECT001 requires touching its doc anchor
+  actor: logan
+  at: '2026-09-06'
 designated_repro_test: null
 acceptance:
 - text: given a library with TSR_1-2433 and TSR_1-2433E sharing nothing, when remove

@@ -77,8 +77,6 @@ present with a DIFFERENT uri -> leave alone, return `Ok(False)`, WARNING
 
 ## symbols
 
-<!-- frob:waive DOC006 reason="future-facing: symbols.py is built by T-0005" -->
-
 (`src/kicad_libsync/symbols.py`)
 
 `merge_into(lib_path, lib_name, vendor_text, overwrite) -> Result[MergeOutcome, SymbolError]`
@@ -95,17 +93,18 @@ present with a DIFFERENT uri -> leave alone, return `Ok(False)`, WARNING
    replace when `overwrite`.
 4. Emit atomically.
 
-`MergeOutcome(added: list[str], skipped: list[str], replaced: list[str])`.
+`MergeOutcome(added: list[str], skipped: list[str], replaced: list[str])`,
+a pydantic model defined once in `symbols.py` and reused (imported, never
+duplicated) by `footprints.py`.
 
 ## footprints
-
-<!-- frob:waive DOC006 reason="future-facing: footprints.py is built by T-0005" -->
 
 (`src/kicad_libsync/footprints.py`)
 
 `copy_into(pretty_dir, footprints, overwrite) -> Result[MergeOutcome, FootprintError]`.
-Create the directory if needed. Same skip/overwrite policy as symbols.
-Each file written atomically.
+`footprints` maps a footprint stem to its `.kicad_mod` text; each entry is
+written as `<stem>.kicad_mod`. Create the directory if needed. Same
+skip/overwrite policy as symbols. Each file written atomically.
 
 ## importer
 

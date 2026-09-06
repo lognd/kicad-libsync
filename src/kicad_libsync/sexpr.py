@@ -44,7 +44,6 @@ class Node:
 
     # frob:doc docs/design/02-project-library-model.md#sexpr
     # frob:tests tests/unit/test_sexpr.py::test_quoted_and_bare_atoms_are_distinguished
-    # frob:waive WIRE001 reason="symbols.py property lookup" follow_up="T-0005"
     def find(self, head: str) -> Node | None:
         """First direct child form with that head, or None."""
         found = self.find_all(head)

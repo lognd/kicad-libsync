@@ -50,7 +50,6 @@ class LibTableError(ErrorSet):
 
 # frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
-# frob:waive WIRE001 reason="consumed by symbols.py" follow_up="T-0005"
 class SymbolError(ErrorSet):
     VendorMalformed = "The vendor .kicad_sym did not parse"
     LibraryMalformed = "The project .kicad_sym did not parse"
@@ -60,7 +59,6 @@ class SymbolError(ErrorSet):
 
 # frob:doc docs/design/00-overview.md#errors
 # frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
-# frob:waive WIRE001 reason="consumed by footprints.py" follow_up="T-0005"
 class FootprintError(ErrorSet):
     FootprintWriteFailed = "A .kicad_mod could not be written into the .pretty dir"
 

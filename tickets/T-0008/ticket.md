@@ -28,6 +28,7 @@ scope:
 - src/kicad_libsync/watcher.py
 - docs/design/04-cli-and-config.md
 - tests/system/test_cli.py
+- design/kicad-libsync.strata
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -66,6 +67,11 @@ scope_changes:
   reason: 'wire watch/import/status commands: remove WIRE001 waivers in state.py/watcher.py
     now consumed by app.py, update the config doc to final API, add frob.toml docblocks/refs
     entries, add system CLI tests'
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: design/kicad-libsync.strata
+  reason: declare env capability for new system test that copies the process environ
   actor: logan
   at: '2026-09-05'
 designated_repro_test: null

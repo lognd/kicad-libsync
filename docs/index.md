@@ -1,6 +1,6 @@
 # kicad-libsync
 
-TODO: one-paragraph overview of what this project does and why.
+Watch a Downloads folder and merge vendor KiCad library zips (Ultra Librarian `KiCADv6/` exports) into the KiCad project you are working on. Design: [docs/design/](design/README.md).
 
 ## Public API
 

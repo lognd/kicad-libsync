@@ -1,6 +1,16 @@
 # kicad-libsync
 
-TODO: one-sentence description of what this project does.
+Watch your Downloads folder and merge vendor KiCad library zips (Ultra
+Librarian `KiCADv6/` exports: `footprints.pretty/` + a `.kicad_sym`) into
+the KiCad project you are working on -- footprints into `<Lib>.pretty`,
+symbols into `<Lib>.kicad_sym`, both registered in the project lib tables.
+
+```bash
+uv tool install /home/logan/projects/kicad-libsync
+kicad-libsync watch --project /mnt/c/Users/logan/Projects/LLC/stpone-schematic
+```
+
+Design docs: [docs/design/](docs/design/README.md).
 
 ## Quick start
 

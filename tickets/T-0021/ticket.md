@@ -77,10 +77,15 @@ scope_changes:
   reason: SnapMagic-prefixed Footprint property must have its vendor prefix replaced
   actor: logan
   at: '2026-09-06'
+evidence:
+- tests/unit/test_archive.py::test_inspect_snapmagic_flat_layout
+- tests/unit/test_symbols.py::test_merge_into_replaces_vendor_footprint_prefix
 designated_repro_test: null
 acceptance:
 - text: inspect() recognizes tests/fixtures/NAU7802KGI.zip with one footprint
-  evidence: []
+  evidence:
+  - tests/unit/test_archive.py::test_inspect_snapmagic_flat_layout
+  - tests/unit/test_symbols.py::test_merge_into_replaces_vendor_footprint_prefix
 threat: null
 component: null
 anchor: false

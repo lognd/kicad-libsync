@@ -31,6 +31,8 @@ scope:
 - design/kicad-libsync.strata
 - docs/design/00-overview.md
 - docs/design/registry/capability-via-ratchet.lock.json
+- src/kicad_libsync/errors.py
+- src/kicad_libsync/libtable.py
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -88,11 +90,24 @@ scope_changes:
     overview doc touched too
   actor: logan
   at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/errors.py
+  reason: remove stale WIRE001 waivers now that app.py/config.py consume these symbols
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/libtable.py
+  reason: remove stale WIRE001 waivers now that app.py/config.py consume these symbols
+  actor: logan
+  at: '2026-09-05'
+evidence:
+- tests/system/test_cli.py::test_import_end_to_end
 designated_repro_test: null
 acceptance:
 - text: given python -m kicad_libsync import --project <tmp> fixture.zip, when run,
     then the project has <Lib>.kicad_sym, <Lib>.pretty and both tables
-  evidence: []
+  evidence:
+  - tests/system/test_cli.py::test_import_end_to_end
 threat: null
 component: null
 anchor: false

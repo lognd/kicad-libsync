@@ -10,6 +10,10 @@ import kicad_libsync.app.config as config_module
 from kicad_libsync.app import App, AppConfig
 from kicad_libsync.app.config import detect_downloads
 from kicad_libsync.errors import ConfigError
+from kicad_libsync.importer import import_zip
+from kicad_libsync.project import locate
+
+FIXTURES = Path(__file__).parent.parent / "fixtures"
 
 
 def _ns(**kwargs) -> argparse.Namespace:
@@ -22,6 +26,9 @@ def _ns(**kwargs) -> argparse.Namespace:
         backfill=None,
         overwrite=None,
         zips=None,
+        names=None,
+        keep_footprints=None,
+        force=None,
     )
     base.update(kwargs)
     return argparse.Namespace(**base)
@@ -125,5 +132,25 @@ def test_app_import_reports_failure_exit_code(tmp_path: Path) -> None:
     (tmp_path / "demo.kicad_pro").write_text("{}", encoding="utf-8")
     missing_zip = tmp_path / "missing.zip"
     cfg = AppConfig(command="import", project=tmp_path, zips=[missing_zip])
+    code = App(cfg)()
+    assert code == 1
+
+
+def test_app_remove_reports_removed_names(tmp_path: Path, caplog) -> None:
+    # frob:tests src/kicad_libsync/app/app.py::App.__call__ kind="unit"
+    (tmp_path / "demo.kicad_pro").write_text("{}", encoding="utf-8")
+    proj = locate(tmp_path).unwrap()
+    import_zip(proj, FIXTURES / "2N7002NXAKR.zip").unwrap()
+
+    cfg = AppConfig(command="remove", project=tmp_path, names=["2N7002NXAKR"])
+    with caplog.at_level("INFO"):
+        code = App(cfg)()
+    assert code == 0
+    assert "symbol" in caplog.text
+
+
+def test_app_remove_missing_project_returns_one(tmp_path: Path) -> None:
+    # frob:tests src/kicad_libsync/app/app.py::App.__call__ kind="unit"
+    cfg = AppConfig(command="remove", project=tmp_path, names=["NOPE"])
     code = App(cfg)()
     assert code == 1

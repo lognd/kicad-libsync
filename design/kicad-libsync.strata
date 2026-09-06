@@ -147,6 +147,7 @@ vmodel_node comp_libtable kind "artifact" level "component-design" code_ref "src
 vmodel_node comp_project kind "artifact" level "component-design" code_ref "src/kicad_libsync/project.py:locate";
 vmodel_node comp_state kind "artifact" level "component-design" code_ref "src/kicad_libsync/state.py:sha256_of";
 vmodel_node comp_watcher kind "artifact" level "component-design" code_ref "src/kicad_libsync/watcher.py:Watcher.poll_once";
+vmodel_node comp_remover kind "artifact" level "component-design" code_ref "src/kicad_libsync/remover.py:remove_symbols";
 
 // satisfies: component -> design -> system -> spec -> requirement
 vmodel_edge kind "satisfies" src comp_sexpr dst des_merge_into_project_lib;
@@ -157,6 +158,7 @@ vmodel_edge kind "satisfies" src comp_project dst des_register_lib_tables;
 vmodel_edge kind "satisfies" src comp_archive dst des_stability_then_hash;
 vmodel_edge kind "satisfies" src comp_state dst des_stability_then_hash;
 vmodel_edge kind "satisfies" src comp_watcher dst des_stability_then_hash;
+vmodel_edge kind "satisfies" src comp_remover dst des_merge_into_project_lib;
 
 vmodel_edge kind "satisfies" src des_merge_into_project_lib dst sys_import_pipeline;
 vmodel_edge kind "satisfies" src des_register_lib_tables dst sys_import_pipeline;
@@ -192,6 +194,7 @@ vmodel_node t_unit_libtable kind "test" level "component-unit-test" runnable "te
 vmodel_node t_unit_project kind "test" level "component-unit-test" runnable "tests/unit/test_project.py::test_locate_derives_paths_from_stem";
 vmodel_node t_unit_state kind "test" level "component-unit-test" runnable "tests/unit/test_state.py::test_sha256_matches_hashlib";
 vmodel_node t_unit_watcher kind "test" level "component-unit-test" runnable "tests/unit/test_watcher.py::test_unstable_file_is_not_imported";
+vmodel_node t_unit_remover kind "test" level "component-unit-test" runnable "tests/unit/test_remover.py::test_remove_symbols_reports_removed_names";
 
 vmodel_edge kind "verifies" src t_customer_import dst req_no_hand_copy;
 vmodel_edge kind "verifies" src t_plan_recognize dst spec_recognize_vendor_zip;
@@ -210,3 +213,4 @@ vmodel_edge kind "verifies" src t_unit_libtable dst comp_libtable;
 vmodel_edge kind "verifies" src t_unit_project dst comp_project;
 vmodel_edge kind "verifies" src t_unit_state dst comp_state;
 vmodel_edge kind "verifies" src t_unit_watcher dst comp_watcher;
+vmodel_edge kind "verifies" src t_unit_remover dst comp_remover;

@@ -2,7 +2,7 @@
 id: T-0020
 title: 'remove subcommand: drop a symbol (and its orphaned footprint) from the project
   library'
-state: in-progress
+state: done
 kind: feature
 origin: human
 created: '2026-09-06'
@@ -43,17 +43,26 @@ scope_changes:
   reason: SymbolError gained SymbolInUse and AFFECT001 requires touching its doc anchor
   actor: logan
   at: '2026-09-06'
+evidence:
+- tests/unit/test_remover.py::test_remove_symbols_deletes_only_its_own_footprint
+- tests/unit/test_remover.py::test_remove_symbols_keeps_shared_footprint
+- tests/unit/test_remover.py::test_remove_symbols_refuses_when_placed_in_schematic
+- tests/system/test_cli.py::test_remove_end_to_end
 designated_repro_test: null
 acceptance:
 - text: given a library with TSR_1-2433 and TSR_1-2433E sharing nothing, when remove
     TSR_1-2433 runs, then only TSR_1-2433 and TSR1-SINGLE_TRP.kicad_mod are gone
-  evidence: []
+  evidence:
+  - tests/unit/test_remover.py::test_remove_symbols_deletes_only_its_own_footprint
 - text: given two symbols sharing a footprint, when one is removed, then the footprint
     file stays
-  evidence: []
+  evidence:
+  - tests/unit/test_remover.py::test_remove_symbols_keeps_shared_footprint
 - text: given a schematic placing the symbol, when remove runs without --force, then
     exit 1 and nothing changes
-  evidence: []
+  evidence:
+  - tests/unit/test_remover.py::test_remove_symbols_refuses_when_placed_in_schematic
+  - tests/system/test_cli.py::test_remove_end_to_end
 threat: null
 component: null
 anchor: false

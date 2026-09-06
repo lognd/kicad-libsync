@@ -136,6 +136,76 @@ def merge_into(
     return Ok(outcome)
 
 
+def _footprint_ref(symbol: Node) -> str | None:
+    """The symbol's `Footprint` property value with any `lib:` prefix stripped."""
+    for prop in symbol.find_all("property"):
+        atoms = prop.atoms()
+        if len(atoms) < 2 or atoms[0] != "Footprint":
+            continue
+        fp = str(atoms[1])
+        if not fp:
+            return None
+        return fp.split(":", 1)[1] if ":" in fp else fp
+    return None
+
+
+# frob:doc docs/design/02-project-library-model.md#remover
+# frob:tests tests/unit/test_symbols.py::test_footprints_still_referenced
+def footprints_still_referenced(lib_path: Path) -> Result[set[str], SymbolError]:
+    """Bare Footprint-property refs of every symbol currently in lib_path."""
+    lib_loaded = _load_or_create_library(lib_path)
+    if isinstance(lib_loaded, Err):
+        return Err(lib_loaded.danger_err)
+    lib_root = lib_loaded.danger_ok
+    referenced = {
+        fp_ref
+        for sym in lib_root.find_all("symbol")
+        if (fp_ref := _footprint_ref(sym)) is not None
+    }
+    return Ok(referenced)
+
+
+# frob:doc docs/design/02-project-library-model.md#remover
+# frob:tests tests/unit/test_symbols.py::test_remove_from_deletes_top_level_symbol
+def remove_from(
+    lib_path: Path, names: list[str]
+) -> Result[tuple[list[str], list[str], list[str]], SymbolError]:
+    """Delete top-level symbols by name; return (removed, missing, footprint refs)."""
+    lib_loaded = _load_or_create_library(lib_path)
+    if isinstance(lib_loaded, Err):
+        return Err(lib_loaded.danger_err)
+    lib_root = lib_loaded.danger_ok
+
+    existing_by_name = {
+        name: sym
+        for sym in lib_root.find_all("symbol")
+        if (name := _symbol_name(sym)) is not None
+    }
+
+    removed: list[str] = []
+    missing: list[str] = []
+    footprint_refs: list[str] = []
+    for name in names:
+        symbol = existing_by_name.get(name)
+        if symbol is None:
+            _log.warning("symbol %s not found in %s; skipping", name, lib_path)
+            missing.append(name)
+            continue
+        _log.info("removing symbol %s from %s", name, lib_path)
+        lib_root.children.remove(symbol)
+        removed.append(name)
+        fp_ref = _footprint_ref(symbol)
+        if fp_ref is not None:
+            footprint_refs.append(fp_ref)
+
+    if removed:
+        write_result = _write_atomic(lib_path, dumps(lib_root))
+        if isinstance(write_result, Err):
+            return Err(write_result.danger_err)
+
+    return Ok((removed, missing, footprint_refs))
+
+
 def _write_atomic(path: Path, text: str) -> Result[None, SymbolError]:
     """Write text to path via a same-dir temp file plus os.replace."""
     path.parent.mkdir(parents=True, exist_ok=True)

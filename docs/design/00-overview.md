@@ -108,7 +108,10 @@ Downloads/*.zip --(watcher: new + stable + not in state)--> archive.inspect
 
 One `ErrorSet` per module boundary: `SexprError`, `ArchiveError`,
 `ProjectError`, `LibTableError`, `SymbolError`, `FootprintError`,
-`StateError`, `ConfigError`. Variant names are unique across ALL sets
+`StateError`, `ConfigError`. `SymbolError.SymbolInUse` is what `remove`
+returns (docs/design/02-project-library-model.md#remover) when a
+schematic still places the symbol and `--force` was not given. Variant
+names are unique across ALL sets
 because typani refuses to union two sets sharing a name, and
 `importer.import_package` returns the union
 `ArchiveError | SymbolError | FootprintError | LibTableError`. Every

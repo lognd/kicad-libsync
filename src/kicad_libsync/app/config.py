@@ -38,6 +38,9 @@ FORWARDED_FIELD_NAMES = frozenset(
         "backfill",
         "overwrite",
         "zips",
+        "names",
+        "keep_footprints",
+        "force",
     }
 )
 
@@ -74,7 +77,7 @@ class AppConfig(BaseModel):
 
     model_config = {}
 
-    command: Literal["watch", "import", "status"] = "watch"
+    command: Literal["watch", "import", "status", "remove"] = "watch"
     project: Path = Path(".")
     downloads: Path | None = None
     lib_name: str | None = None
@@ -82,6 +85,9 @@ class AppConfig(BaseModel):
     backfill: bool = False
     overwrite: bool = False
     zips: list[Path] = []
+    names: list[str] = []
+    keep_footprints: bool = False
+    force: bool = False
 
     @classmethod
     # frob:doc docs/index.md#public-api

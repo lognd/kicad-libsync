@@ -53,6 +53,7 @@ class SymbolError(ErrorSet):
     LibraryMalformed = "The project .kicad_sym did not parse"
     LibraryReadFailed = "The project .kicad_sym could not be read"
     LibraryWriteFailed = "The project .kicad_sym could not be written"
+    SymbolInUse = "The symbol is placed in a schematic; pass --force to remove anyway"
 
 
 # frob:doc docs/design/00-overview.md#errors

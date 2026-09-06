@@ -38,6 +38,11 @@ def test_parser_builds_watch_import_status() -> None:
     status_args = parser.parse_args(["status"])
     assert status_args.command == "status"
 
+    remove_args = parser.parse_args(["remove", "NAME_A", "NAME_B", "--force"])
+    assert remove_args.command == "remove"
+    assert remove_args.names == ["NAME_A", "NAME_B"]
+    assert remove_args.force is True
+
 
 def test_bad_poll_exits_with_code_2(tmp_path, monkeypatch: pytest.MonkeyPatch) -> None:
     # frob:tests src/kicad_libsync/__main__.py::main kind="unit"

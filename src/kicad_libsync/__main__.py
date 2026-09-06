@@ -40,6 +40,14 @@ def _build_parser() -> argparse.ArgumentParser:
     status = sub.add_parser("status", help="show project libraries and table state")
     status.add_argument("--project", type=Path, default=Path("."))
 
+    remove = sub.add_parser(
+        "remove", help="drop a symbol and its orphaned footprint from the library"
+    )
+    remove.add_argument("--project", type=Path, default=Path("."))
+    remove.add_argument("--keep-footprints", action="store_true", default=None)
+    remove.add_argument("--force", action="store_true", default=None)
+    remove.add_argument("names", metavar="NAME", nargs="+")
+
     return p
 
 

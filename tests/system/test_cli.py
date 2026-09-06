@@ -95,6 +95,42 @@ def test_second_import_is_a_no_op(tmp_path: Path) -> None:
     assert before == after
 
 
+def test_remove_end_to_end(tmp_path: Path) -> None:
+    # frob:tests tests/system/test_cli.py::test_remove_end_to_end
+    # frob:tests src/kicad_libsync/remover.py kind="integration"
+    project_dir = tmp_path / "project"
+    project_dir.mkdir()
+    (project_dir / "demo.kicad_pro").write_text("{}", encoding="utf-8")
+    env = _base_env(tmp_path)
+
+    imported = _run(
+        ["import", "--project", str(project_dir), str(FIXTURES / "2N7002NXAKR.zip")],
+        env=env,
+    )
+    assert imported.returncode == 0, imported.stderr
+    imported_second = _run(
+        ["import", "--project", str(project_dir), str(FIXTURES / "22R336MC.zip")],
+        env=env,
+    )
+    assert imported_second.returncode == 0, imported_second.stderr
+
+    # A schematic placing the symbol blocks removal without --force.
+    sch = project_dir / "x.kicad_sch"
+    sch.write_text(
+        '(kicad_sch (version 20211123) (symbol (lib_id "demo:2N7002NXAKR") (at 0 0 0)))\n',
+        encoding="utf-8",
+    )
+    blocked = _run(["remove", "--project", str(project_dir), "2N7002NXAKR"], env=env)
+    assert blocked.returncode == 1
+    assert (project_dir / "demo.pretty" / "TO-236AB_SOT23_NEX.kicad_mod").exists()
+
+    sch.unlink()
+    removed = _run(["remove", "--project", str(project_dir), "2N7002NXAKR"], env=env)
+    assert removed.returncode == 0, removed.stderr
+    assert not (project_dir / "demo.pretty" / "TO-236AB_SOT23_NEX.kicad_mod").exists()
+    assert (project_dir / "demo.pretty" / "IND_2200RM_MUR.kicad_mod").exists()
+
+
 def test_watch_backfill_imports_once(tmp_path: Path) -> None:
     # frob:tests tests/system/test_cli.py::test_watch_backfill_imports_once
     project_dir = tmp_path / "project"

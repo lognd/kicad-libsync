@@ -10,6 +10,7 @@ from kicad_libsync import libtable, project, state
 from kicad_libsync.app.config import AppConfig
 from kicad_libsync.importer import import_zip
 from kicad_libsync.logging import get_logger
+from kicad_libsync.remover import remove_symbols
 from kicad_libsync.watcher import Watcher
 
 _log = get_logger(__name__)
@@ -31,6 +32,8 @@ class App:
             return self._run_watch()
         if cfg.command == "import":
             return self._run_import()
+        if cfg.command == "remove":
+            return self._run_remove()
         return self._run_status()
 
     def _run_watch(self) -> int:
@@ -83,6 +86,25 @@ class App:
                 _log.error(str(result))
                 failed = True
         return 1 if failed else 0
+
+    # frob:tests tests/unit/test_app.py::test_app_remove_reports_removed_names
+    def _run_remove(self) -> int:
+        """Locate the project and remove the named symbols; exit 1 on any error."""
+        cfg = self._cfg
+        located = project.locate(cfg.project, cfg.lib_name)
+        if isinstance(located, Err):
+            _log.error("could not locate project: %s", located)
+            return 1
+        proj = located.danger_ok
+
+        result = remove_symbols(
+            proj, cfg.names, keep_footprints=cfg.keep_footprints, force=cfg.force
+        )
+        if isinstance(result, Err):
+            _log.error(str(result))
+            return 1
+        _log.info(result.danger_ok.summary())
+        return 0
 
     def _run_status(self) -> int:
         """Log the project's libraries, table entries, and processed-state count."""

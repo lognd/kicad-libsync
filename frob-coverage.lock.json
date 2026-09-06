@@ -15,10 +15,11 @@
     "src/kicad_libsync/logging/formatter.py": 0.0,
     "src/kicad_libsync/logging/logger.py": 0.0,
     "src/kicad_libsync/project.py": 0.0,
+    "src/kicad_libsync/remover.py": 0.0,
     "src/kicad_libsync/sexpr.py": 0.0,
     "src/kicad_libsync/state.py": 0.0,
     "src/kicad_libsync/symbols.py": 0.0,
     "src/kicad_libsync/watcher.py": 0.0
   },
-  "source_sha": "ed13ac402a2cb89a96a21e6ed7bd3810cf69d87e28a98c074f33f3d0e50e4b27"
+  "source_sha": "ffebcb02b967a2d3f4e63d643ecd9a43ff5e24ccf247274edf572865e8e8b42b"
 }

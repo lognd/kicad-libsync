@@ -10,6 +10,7 @@ uv tool install /home/logan/projects/kicad-libsync
 kicad-libsync watch --project /mnt/c/Users/logan/Projects/LLC/stpone-schematic
 kicad-libsync import --project . vendor-package.zip
 kicad-libsync status --project .
+kicad-libsync remove --project . SOME_PART
 ```
 
 Design docs: [docs/design/](docs/design/README.md).

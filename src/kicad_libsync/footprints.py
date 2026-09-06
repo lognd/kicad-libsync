@@ -52,6 +52,33 @@ def copy_into(
     return Ok(outcome)
 
 
+# frob:doc docs/design/02-project-library-model.md#remover
+# frob:tests tests/unit/test_footprints.py::test_remove_orphans_keeps_shared_footprint
+def remove_orphans(
+    pretty_dir: Path, candidates: list[str], still_referenced: set[str]
+) -> Result[list[str], FootprintError]:
+    """Delete each candidate's .kicad_mod unless a remaining symbol still uses it."""
+    removed: list[str] = []
+    for stem in candidates:
+        if stem in still_referenced:
+            _log.info(
+                "footprint %s still referenced by a remaining symbol; keeping", stem
+            )
+            continue
+        dest = pretty_dir / f"{stem}.kicad_mod"
+        if not dest.exists():
+            _log.debug("footprint %s already absent from %s", stem, pretty_dir)
+            continue
+        try:
+            dest.unlink()
+        except OSError:
+            _log.exception("failed to remove orphaned footprint %s", dest)
+            return Err(FootprintError.FootprintWriteFailed)
+        _log.info("removed orphaned footprint %s from %s", stem, pretty_dir)
+        removed.append(stem)
+    return Ok(removed)
+
+
 def _write_atomic(path: Path, text: str) -> Result[None, FootprintError]:
     """Write text to path via a same-dir temp file plus os.replace."""
     try:

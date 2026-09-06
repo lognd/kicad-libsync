@@ -107,6 +107,35 @@ duplicated) by `footprints.py`.
 written as `<stem>.kicad_mod`. Create the directory if needed. Same
 skip/overwrite policy as symbols. Each file written atomically.
 
+## remover
+
+(`src/kicad_libsync/remover.py`)
+
+`remove_symbols(project, names, keep_footprints=False, force=False) ->
+Result[RemoveReport, RemoveError_]` drops named symbols from the project's
+merged `.kicad_sym` and any footprint each one uniquely owned:
+
+1. Unless `force`, scan every `*.kicad_sch` under `project.root` for a
+   `(lib_id "<lib_name>:NAME")` use of any of `names`; a hit returns
+   `Err(SymbolError.SymbolInUse)` noting the schematic path and changes
+   nothing.
+2. `symbols.remove_from(lib_path, names) -> Result[tuple[list[str],
+   list[str], list[str]], SymbolError]` deletes the matching top-level
+   `(symbol "NAME" ...)` forms (their nested `NAME_0_1` units go with
+   them) and writes atomically. It returns `(removed, missing, footprint
+   refs)` -- the bare (lib-prefix-stripped) `Footprint` value of each
+   removed symbol.
+3. Unless `keep_footprints`, `symbols.footprints_still_referenced(lib_path)
+   -> Result[set[str], SymbolError]` re-reads the now-trimmed library for
+   the footprint refs any surviving symbol still needs, and
+   `footprints.remove_orphans(pretty_dir, candidates, still_referenced) ->
+   Result[list[str], FootprintError]` deletes `<candidate>.kicad_mod` for
+   every candidate not in that set.
+
+`RemoveReport(removed_symbols, removed_footprints, missing)` is a pydantic
+model with a `summary()` one-liner, mirroring `ImportReport`.
+`RemoveError_ = SymbolError | FootprintError`.
+
 ## importer
 
 (`src/kicad_libsync/importer.py`)

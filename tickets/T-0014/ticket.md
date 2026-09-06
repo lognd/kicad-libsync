@@ -2,7 +2,7 @@
 id: T-0014
 title: 'strata: narrow test-node exec/eval grants with via after tests grew past 20
   files'
-state: queued
+state: in-progress
 kind: docs
 origin: agent
 created: '2026-09-05'

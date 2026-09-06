@@ -26,6 +26,7 @@ scope:
 - src/kicad_libsync/symbols.py
 - src/kicad_libsync/footprints.py
 - docs/design/02-project-library-model.md
+- tests/unit/test_importer.py
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -64,6 +65,11 @@ scope_changes:
 - op: add
   glob: tests/integration/test_importer.py
   reason: importer wires them, drop satisfied waivers
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: tests/unit/test_importer.py
+  reason: unit tests for importer
   actor: logan
   at: '2026-09-05'
 designated_repro_test: null

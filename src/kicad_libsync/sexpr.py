@@ -141,7 +141,7 @@ def _parse_form(tokens: list[str], pos: int) -> Result[tuple[Node, int], SexprEr
         if _is_paren(tok, _CLOSE):
             return Ok((node, pos + 1))
         if _is_paren(tok, _OPEN):
-            # frob:invariant terminates reason="pos grows per token" measure="len(tokens)-pos"
+            # frob:invariant terminates reason="pos grows" measure="len(tokens)-pos"
             sub = _parse_form(tokens, pos + 1)
             if isinstance(sub, Err):
                 return Err(sub.danger_err)

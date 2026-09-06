@@ -22,7 +22,6 @@ _EMPTY_LIB_HEADER = (
 
 # frob:doc docs/design/02-project-library-model.md#symbols
 # frob:tests tests/unit/test_symbols.py::test_merge_into_reports_added_names
-# frob:waive WIRE001 reason="consumed by importer.py" follow_up="T-0006"
 class MergeOutcome(BaseModel):
     """Names added, skipped (already present), or replaced by a merge/copy."""
 
@@ -87,7 +86,6 @@ def _load_or_create_library(lib_path: Path) -> Result[Node, SymbolError]:
 
 # frob:doc docs/design/02-project-library-model.md#symbols
 # frob:tests tests/unit/test_symbols.py::test_merge_into_reports_added_names
-# frob:waive WIRE001 reason="consumed by importer.py" follow_up="T-0006"
 def merge_into(
     lib_path: Path, lib_name: str, vendor_text: str, overwrite: bool = False
 ) -> Result[MergeOutcome, SymbolError]:

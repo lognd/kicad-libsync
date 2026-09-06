@@ -109,8 +109,6 @@ skip/overwrite policy as symbols. Each file written atomically.
 
 ## importer
 
-<!-- frob:waive DOC006 reason="future-facing: importer.py is built by T-0006" -->
-
 (`src/kicad_libsync/importer.py`)
 
 ```python
@@ -121,10 +119,19 @@ class ImportReport(BaseModel):
     sym_table_added: bool
     fp_table_added: bool
 
-def import_package(project, pkg, overwrite=False) -> Result[ImportReport, ImportError]
+    def summary(self) -> str: ...
+
+def import_package(project, pkg, overwrite=False) -> Result[ImportReport, ImportError_]
+def import_zip(project, zip_path, overwrite=False) -> Result[ImportReport, ImportError_]
 ```
 
 Order: footprints first, then symbols, then tables. A failure in a later
 stage leaves earlier stages applied -- footprints on disk without a symbol
-are harmless, the reverse would reference a missing footprint. `ImportError`
-is the union `ArchiveError | SymbolError | FootprintError | LibTableError`.
+are harmless, the reverse would reference a missing footprint. `ImportError_`
+(trailing underscore avoids shadowing the builtin `ImportError`) is the union
+`ArchiveError | SymbolError | FootprintError | LibTableError`.
+
+`import_zip` combines `archive.inspect` and `import_package` in one call; it
+is what the watcher and CLI import subcommand call. `ImportReport.summary()`
+renders one human-readable line, e.g. `2N7002NXAKR.zip: +1 symbol, +3
+footprints, sym-lib-table registered`, for the CLI to print.

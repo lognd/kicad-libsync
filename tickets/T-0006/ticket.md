@@ -1,7 +1,7 @@
 ---
 id: T-0006
 title: 'importer.py: orchestrate package -> project with ImportReport'
-state: in-progress
+state: done
 kind: feature
 origin: agent
 created: '2026-09-05'
@@ -96,11 +96,14 @@ scope_changes:
   reason: package inits needed to disambiguate same-named test modules
   actor: logan
   at: '2026-09-05'
+evidence:
+- tests/integration/test_importer.py::test_import_twice_skips_everything
 designated_repro_test: null
 acceptance:
 - text: given a fixture zip and an empty project dir, when imported twice, then the
     second report skips everything
-  evidence: []
+  evidence:
+  - tests/integration/test_importer.py::test_import_twice_skips_everything
 threat: null
 component: null
 anchor: false

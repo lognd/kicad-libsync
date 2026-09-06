@@ -67,7 +67,6 @@ def _write_atomic(table_path: Path, root: Node) -> Result[None, LibTableError]:
 
 # frob:doc docs/design/02-project-library-model.md#libtable
 # frob:tests tests/unit/test_libtable.py::test_ensure_entry_creates_missing_table
-# frob:waive WIRE001 reason="consumed by importer.py" follow_up="T-0006"
 def ensure_entry(
     table_path: Path, kind: Literal["sym", "fp"], lib_name: str, uri: str
 ) -> Result[bool, LibTableError]:

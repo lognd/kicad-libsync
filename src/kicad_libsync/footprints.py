@@ -17,7 +17,6 @@ _log = get_logger(__name__)
 
 # frob:doc docs/design/02-project-library-model.md#footprints
 # frob:tests tests/unit/test_footprints.py::test_copy_into_reports_added_names
-# frob:waive WIRE001 reason="consumed by importer.py" follow_up="T-0006"
 def copy_into(
     pretty_dir: Path, footprints: dict[str, str], overwrite: bool = False
 ) -> Result[MergeOutcome, FootprintError]:

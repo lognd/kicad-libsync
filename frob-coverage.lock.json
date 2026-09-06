@@ -8,6 +8,7 @@
     "src/kicad_libsync/archive.py": 0.0,
     "src/kicad_libsync/errors.py": 0.0,
     "src/kicad_libsync/footprints.py": 0.0,
+    "src/kicad_libsync/importer.py": 0.0,
     "src/kicad_libsync/libtable.py": 0.0,
     "src/kicad_libsync/logging/__init__.py": 0.0,
     "src/kicad_libsync/logging/filter.py": 0.0,
@@ -17,5 +18,5 @@
     "src/kicad_libsync/sexpr.py": 0.0,
     "src/kicad_libsync/symbols.py": 0.0
   },
-  "source_sha": "a4c487bb06d24e5d5f6958140539d824bb3fe38df2d7bec14e14c9296d18740a"
+  "source_sha": "5a77baad7219f29fa817202ad2dc56e3640fdde157b6da476f9797b1bbef88dc"
 }

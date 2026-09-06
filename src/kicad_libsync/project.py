@@ -15,7 +15,6 @@ _log = get_logger(__name__)
 
 # frob:doc docs/design/02-project-library-model.md#project
 # frob:tests tests/unit/test_project.py::test_locate_derives_paths_from_stem
-# frob:waive WIRE001 reason="consumed by importer.py" follow_up="T-0006"
 class KicadProject(BaseModel):
     """The project directory plus the derived project-local library paths."""
 
@@ -32,7 +31,6 @@ class KicadProject(BaseModel):
 
 # frob:doc docs/design/02-project-library-model.md#project
 # frob:tests tests/unit/test_project.py::test_locate_derives_paths_from_stem
-# frob:waive WIRE001 reason="consumed by importer.py" follow_up="T-0006"
 def locate(
     path: Path, lib_name: str | None = None
 ) -> Result[KicadProject, ProjectError]:

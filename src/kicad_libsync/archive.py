@@ -16,7 +16,6 @@ _log = get_logger(__name__)
 
 # frob:doc docs/design/01-vendor-zip-format.md#vendorpackage
 # frob:tests tests/unit/test_archive.py::test_inspect_valid_zip_two_footprints
-# frob:waive WIRE001 reason="consumed by importer.py" follow_up="T-0006"
 class VendorPackage(BaseModel):
     """The pieces of a recognized vendor export: a symbol library and its footprints."""
 
@@ -35,7 +34,7 @@ def _is_unsafe(name: str) -> bool:
 
 # frob:doc docs/design/01-vendor-zip-format.md#inspect
 # frob:tests tests/unit/test_archive.py::test_inspect_valid_zip_two_footprints
-# frob:waive WIRE001 reason="consumed by watcher.py" follow_up="T-0006"
+# frob:boundary b_archive_inspect
 def inspect(zip_path: Path) -> Result[VendorPackage, ArchiveError]:
     """Recognize an Ultra Librarian export in zip_path, reading members in memory."""
     try:

@@ -1,0 +1,159 @@
+// kicad-libsync.strata -- system model and V-model spec graph for the tool.
+//
+// Two things live here:
+//   1. The runtime topology (nodes/stores/flows): a single trusted process
+//      that reads a FOREIGN Downloads folder and writes into the KiCad
+//      project directory and a per-user state file. This is what
+//      `frob sys audit` checks capabilities and trust boundaries against.
+//   2. The V-model spec graph (vmodel_node / vmodel_edge): requirements ->
+//      specification -> system design -> component design on the left,
+//      the test that verifies each level on the right. `frob check`'s
+//      VMOD001 refuses an orphan requirement, an unjustified design
+//      element, or an artifact with no paired-level test.
+//
+// frob:doc docs/design/00-overview.md#what-this-tool-is
+module kicad_libsync
+
+// -- runtime topology ----------------------------------------------------
+
+// The user's browser drops vendor zips here. Foreign: every byte is
+// attacker-controllable (zip member paths, s-expression text).
+store downloads : foreign {
+    clearance Internal;
+    managed;
+}
+
+// The one process: watcher + importer + CLI. Reads zips into memory,
+// parses them, writes into the project.
+node libsync : trusted {
+    clearance Internal;
+    code "src/kicad_libsync/**" "tests/**";
+    // fs: zipfile reads under downloads, atomic writes under the project
+    // and the state file; nothing else.
+    may "fs";
+    // env: XDG_STATE_HOME / KICAD_LIBSYNC_* configuration reads.
+    may "env";
+}
+
+// The KiCad project directory (the .kicad_pro's parent): <Lib>.kicad_sym,
+// <Lib>.pretty/, sym-lib-table, fp-lib-table.
+store project : trusted {
+    clearance Internal;
+    managed;
+}
+
+// $XDG_STATE_HOME/kicad-libsync/processed.json -- the idempotency ledger.
+store state : trusted {
+    clearance Internal;
+    managed;
+}
+
+// rate: the poll loop reads at most one new zip per poll tick (2 s default).
+flow f_downloads_libsync : downloads -> libsync { label Internal; rate 1 req/s; attr local; }
+flow f_libsync_project : libsync -> project { label Internal; attr local; }
+flow f_libsync_state : libsync -> state { label Internal; attr local; }
+
+// archive.inspect is the chokepoint where foreign bytes become typed
+// values: member paths are rejected if absolute or containing "..", and
+// nothing is ever extracted to disk.
+boundary b_archive_inspect endorse f_downloads_libsync : foreign -> trusted when "archive_inspect_path_and_utf8_validation"
+
+// A zip can never write outside the project directory.
+assert c_downloads_never_reach_state noflow downloads -> state
+
+// -- V-model spec graph ----------------------------------------------------
+// Left side (artifact) levels, outermost to innermost:
+//   requirements -> requirement-specification -> system-specification
+//   -> system-design -> component-design
+// Right side (test) levels are paired one-to-one (docs/strata/vmodel.md in
+// the frob repo).
+
+// requirements
+vmodel_node req_no_hand_copy kind "artifact" level "requirements" code_ref "src/kicad_libsync/__main__.py:main";
+
+// requirement-specification
+vmodel_node spec_recognize_vendor_zip kind "artifact" level "requirement-specification" code_ref "src/kicad_libsync/archive.py:inspect";
+vmodel_node spec_project_local_libs kind "artifact" level "requirement-specification" code_ref "src/kicad_libsync/project.py:KicadProject";
+vmodel_node spec_never_import_twice kind "artifact" level "requirement-specification" code_ref "src/kicad_libsync/state.py:ProcessedState";
+
+// system-specification
+vmodel_node sys_import_pipeline kind "artifact" level "system-specification" code_ref "src/kicad_libsync/importer.py:import_package";
+vmodel_node sys_poll_downloads kind "artifact" level "system-specification" code_ref "src/kicad_libsync/watcher.py:watch";
+
+// system-design
+vmodel_node des_merge_into_project_lib kind "artifact" level "system-design" code_ref "src/kicad_libsync/symbols.py:merge_into";
+vmodel_node des_register_lib_tables kind "artifact" level "system-design" code_ref "src/kicad_libsync/libtable.py:ensure_entry";
+vmodel_node des_stability_then_hash kind "artifact" level "system-design" code_ref "src/kicad_libsync/watcher.py:Watcher";
+
+// component-design
+vmodel_node comp_sexpr kind "artifact" level "component-design" code_ref "src/kicad_libsync/sexpr.py:parse";
+vmodel_node comp_archive kind "artifact" level "component-design" code_ref "src/kicad_libsync/archive.py:inspect";
+vmodel_node comp_symbols kind "artifact" level "component-design" code_ref "src/kicad_libsync/symbols.py:merge_into";
+vmodel_node comp_footprints kind "artifact" level "component-design" code_ref "src/kicad_libsync/footprints.py:copy_into";
+vmodel_node comp_libtable kind "artifact" level "component-design" code_ref "src/kicad_libsync/libtable.py:ensure_entry";
+vmodel_node comp_project kind "artifact" level "component-design" code_ref "src/kicad_libsync/project.py:locate";
+vmodel_node comp_state kind "artifact" level "component-design" code_ref "src/kicad_libsync/state.py:sha256_of";
+vmodel_node comp_watcher kind "artifact" level "component-design" code_ref "src/kicad_libsync/watcher.py:Watcher.poll_once";
+
+// satisfies: component -> design -> system -> spec -> requirement
+vmodel_edge kind "satisfies" src comp_sexpr dst des_merge_into_project_lib;
+vmodel_edge kind "satisfies" src comp_symbols dst des_merge_into_project_lib;
+vmodel_edge kind "satisfies" src comp_footprints dst des_merge_into_project_lib;
+vmodel_edge kind "satisfies" src comp_libtable dst des_register_lib_tables;
+vmodel_edge kind "satisfies" src comp_project dst des_register_lib_tables;
+vmodel_edge kind "satisfies" src comp_archive dst des_stability_then_hash;
+vmodel_edge kind "satisfies" src comp_state dst des_stability_then_hash;
+vmodel_edge kind "satisfies" src comp_watcher dst des_stability_then_hash;
+
+vmodel_edge kind "satisfies" src des_merge_into_project_lib dst sys_import_pipeline;
+vmodel_edge kind "satisfies" src des_register_lib_tables dst sys_import_pipeline;
+vmodel_edge kind "satisfies" src des_stability_then_hash dst sys_poll_downloads;
+
+vmodel_edge kind "satisfies" src sys_import_pipeline dst spec_recognize_vendor_zip;
+vmodel_edge kind "satisfies" src sys_import_pipeline dst spec_project_local_libs;
+vmodel_edge kind "satisfies" src sys_poll_downloads dst spec_never_import_twice;
+
+vmodel_edge kind "satisfies" src spec_recognize_vendor_zip dst req_no_hand_copy;
+vmodel_edge kind "satisfies" src spec_project_local_libs dst req_no_hand_copy;
+vmodel_edge kind "satisfies" src spec_never_import_twice dst req_no_hand_copy;
+
+// tests, one per paired level
+vmodel_node t_customer_import kind "test" level "customer-test" runnable "tests/system/test_cli.py::test_import_end_to_end";
+
+vmodel_node t_plan_recognize kind "test" level "customer-test-plan" runnable "tests/unit/test_archive.py::test_inspect_real_ultra_librarian_zip";
+vmodel_node t_plan_project_libs kind "test" level "customer-test-plan" runnable "tests/system/test_cli.py::test_import_registers_project_local_libraries";
+vmodel_node t_plan_idempotent kind "test" level "customer-test-plan" runnable "tests/system/test_cli.py::test_second_import_is_a_no_op";
+
+vmodel_node t_sysint_pipeline kind "test" level "system-integration-test-plan" runnable "tests/integration/test_importer.py::test_import_twice_skips_everything";
+vmodel_node t_sysint_poll kind "test" level "system-integration-test-plan" runnable "tests/system/test_cli.py::test_watch_backfill_imports_once";
+
+vmodel_node t_subsys_merge kind "test" level "subsystem-integration-test-plan" runnable "tests/integration/test_merge_fixtures.py::test_both_fixtures_merge_into_one_library";
+vmodel_node t_subsys_tables kind "test" level "subsystem-integration-test-plan" runnable "tests/integration/test_project_tables.py::test_register_twice_yields_one_entry_each";
+vmodel_node t_subsys_stability kind "test" level "subsystem-integration-test-plan" runnable "tests/unit/test_watcher.py::test_zip_is_imported_once_after_it_stabilizes";
+
+vmodel_node t_unit_sexpr kind "test" level "component-unit-test" runnable "tests/unit/test_sexpr.py::test_parse_round_trips_through_dumps";
+vmodel_node t_unit_archive kind "test" level "component-unit-test" runnable "tests/unit/test_archive.py::test_rejects_non_library_zips";
+vmodel_node t_unit_symbols kind "test" level "component-unit-test" runnable "tests/unit/test_symbols.py::test_footprint_property_is_prefixed_with_library";
+vmodel_node t_unit_footprints kind "test" level "component-unit-test" runnable "tests/unit/test_footprints.py::test_existing_footprint_is_skipped_without_overwrite";
+vmodel_node t_unit_libtable kind "test" level "component-unit-test" runnable "tests/unit/test_libtable.py::test_ensure_entry_creates_then_is_idempotent";
+vmodel_node t_unit_project kind "test" level "component-unit-test" runnable "tests/unit/test_project.py::test_locate_derives_paths_from_stem";
+vmodel_node t_unit_state kind "test" level "component-unit-test" runnable "tests/unit/test_state.py::test_sha256_matches_hashlib";
+vmodel_node t_unit_watcher kind "test" level "component-unit-test" runnable "tests/unit/test_watcher.py::test_unstable_file_is_not_imported";
+
+vmodel_edge kind "verifies" src t_customer_import dst req_no_hand_copy;
+vmodel_edge kind "verifies" src t_plan_recognize dst spec_recognize_vendor_zip;
+vmodel_edge kind "verifies" src t_plan_project_libs dst spec_project_local_libs;
+vmodel_edge kind "verifies" src t_plan_idempotent dst spec_never_import_twice;
+vmodel_edge kind "verifies" src t_sysint_pipeline dst sys_import_pipeline;
+vmodel_edge kind "verifies" src t_sysint_poll dst sys_poll_downloads;
+vmodel_edge kind "verifies" src t_subsys_merge dst des_merge_into_project_lib;
+vmodel_edge kind "verifies" src t_subsys_tables dst des_register_lib_tables;
+vmodel_edge kind "verifies" src t_subsys_stability dst des_stability_then_hash;
+vmodel_edge kind "verifies" src t_unit_sexpr dst comp_sexpr;
+vmodel_edge kind "verifies" src t_unit_archive dst comp_archive;
+vmodel_edge kind "verifies" src t_unit_symbols dst comp_symbols;
+vmodel_edge kind "verifies" src t_unit_footprints dst comp_footprints;
+vmodel_edge kind "verifies" src t_unit_libtable dst comp_libtable;
+vmodel_edge kind "verifies" src t_unit_project dst comp_project;
+vmodel_edge kind "verifies" src t_unit_state dst comp_state;
+vmodel_edge kind "verifies" src t_unit_watcher dst comp_watcher;

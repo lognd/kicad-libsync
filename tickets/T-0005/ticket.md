@@ -22,6 +22,7 @@ scope:
 - tests/unit/test_footprints.py
 - tests/integration/test_merge_fixtures.py
 - src/kicad_libsync/errors.py
+- docs/design/02-project-library-model.md
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -36,6 +37,11 @@ scope_changes:
   glob: src/kicad_libsync/errors.py
   reason: delete obsolete WIRE001 waivers now that symbols.py/footprints.py consume
     SymbolError/FootprintError
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: docs/design/02-project-library-model.md
+  reason: symbols/footprints doc anchors
   actor: logan
   at: '2026-09-05'
 evidence:

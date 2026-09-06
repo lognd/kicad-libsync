@@ -85,7 +85,8 @@ designated_repro_test: null
 acceptance:
 - text: given a KiCad .kicad_sym text, when parsed and dumped, then re-parsing yields
     an equal tree
-  evidence: []
+  evidence:
+  - tests/unit/test_sexpr.py::test_parse_round_trips_through_dumps
 threat: null
 component: null
 anchor: false

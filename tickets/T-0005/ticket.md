@@ -21,6 +21,7 @@ scope:
 - tests/unit/test_symbols.py
 - tests/unit/test_footprints.py
 - tests/integration/test_merge_fixtures.py
+- src/kicad_libsync/errors.py
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -29,6 +30,12 @@ scope_changes:
 - op: add
   glob: tests/integration/test_merge_fixtures.py
   reason: T-0005 adds an integration test binding symbols.py and footprints.py
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/errors.py
+  reason: delete obsolete WIRE001 waivers now that symbols.py/footprints.py consume
+    SymbolError/FootprintError
   actor: logan
   at: '2026-09-05'
 designated_repro_test: null

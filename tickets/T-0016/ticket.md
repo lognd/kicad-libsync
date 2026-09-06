@@ -1,7 +1,7 @@
 ---
 id: T-0016
 title: 'strata V-model: point runnables at the landed test ids'
-state: queued
+state: in-progress
 kind: docs
 origin: agent
 created: '2026-09-05'

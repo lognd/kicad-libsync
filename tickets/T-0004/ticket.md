@@ -8,6 +8,7 @@ created: '2026-09-05'
 priority: medium
 blocked_by:
 - T-0002
+- T-draft-c73563a0
 parent: T-0001
 tier: ticket
 sprint: null
@@ -37,14 +38,19 @@ scope_changes:
   reason: integration test + doc update required for T-0004 deliverables
   actor: logan
   at: '2026-09-05'
+evidence:
+- tests/unit/test_project.py::test_locate_derives_paths_from_stem
+- tests/unit/test_libtable.py::test_ensure_entry_twice_yields_one_entry
 designated_repro_test: null
 acceptance:
 - text: given a dir with one .kicad_pro, when located, then lib paths derive from
     the stem
-  evidence: []
+  evidence:
+  - tests/unit/test_project.py::test_locate_derives_paths_from_stem
 - text: given no fp-lib-table, when ensure_entry runs twice, then the file has exactly
     one entry
-  evidence: []
+  evidence:
+  - tests/unit/test_libtable.py::test_ensure_entry_twice_yields_one_entry
 threat: null
 component: null
 anchor: false

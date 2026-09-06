@@ -2,7 +2,7 @@
 id: T-0015
 title: 'post-land sweep regression from an unattributed source (sweep spawned by T-0007):
   1 new (rule, file) identit(ies), 1 finding(s) (REF002)'
-state: queued
+state: dropped
 kind: bug
 origin: agent
 created: '2026-09-05'
@@ -44,3 +44,6 @@ Attribution (T-1690, symbolic reachability over the verify queue's touched-symbo
 - TEST006  tests/integration/test_watcher_state.py  -> attributed to T-0007 (commit bb89398da5e6, already closed/dropped -- filed below) via tests/integration/test_watcher_state.py::FIXTURES
 
 Under the rapid profile the sweep runs detached and files this ticket rather than reverting an already-published commit. Fix the errors, or -- if they are pre-existing residue the rolling baseline simply had not recorded yet -- close this ticket with that finding stated explicitly.
+
+## Drop reason
+- 2026-09-05: REF002 on the via-ratchet lock was cleared by T-0008's [[refs.entrypoint]] row; frob check on main is 0 errors

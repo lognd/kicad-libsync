@@ -22,6 +22,8 @@ scope:
 - .gitignore
 - docs/design/00-overview.md
 - tests/unit/test_errors.py
+- frob.lock
+- design/kicad-libsync.strata
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -43,6 +45,18 @@ scope_changes:
   glob: tests/unit/test_errors.py
   reason: ignore .serena scratch dir; errors.py doc/test closure pulled in by the
     NoFootprints message change
+  actor: logan
+  at: '2026-09-06'
+- op: add
+  glob: frob.lock
+  reason: frob.lock rewritten by the ack; strata pulled in by the overview doc anchor
+    closure
+  actor: logan
+  at: '2026-09-06'
+- op: add
+  glob: design/kicad-libsync.strata
+  reason: frob.lock rewritten by the ack; strata pulled in by the overview doc anchor
+    closure
   actor: logan
   at: '2026-09-06'
 designated_repro_test: null

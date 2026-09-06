@@ -21,6 +21,7 @@ scope:
 - tests/fixtures/*
 - tests/integration/test_archive_fixtures.py
 - docs/design/01-vendor-zip-format.md
+- src/kicad_libsync/errors.py
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -36,13 +37,23 @@ scope_changes:
   reason: integration test file and design doc anchors added for archive.py
   actor: logan
   at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/errors.py
+  reason: drop the ArchiveError WIRE001 waiver now that archive.py consumes it
+  actor: logan
+  at: '2026-09-05'
+evidence:
+- tests/unit/test_archive.py::test_inspect_valid_zip_two_footprints
+- tests/unit/test_archive.py::test_inspect_not_a_library_has_no_symbol
 designated_repro_test: null
 acceptance:
 - text: given 2N7002NXAKR.zip, when inspected, then one symbols_text and three footprints
     are returned
-  evidence: []
+  evidence:
+  - tests/unit/test_archive.py::test_inspect_valid_zip_two_footprints
 - text: given not-a-library.zip, when inspected, then Err(NoSymbolLibrary)
-  evidence: []
+  evidence:
+  - tests/unit/test_archive.py::test_inspect_not_a_library_has_no_symbol
 threat: null
 component: null
 anchor: false

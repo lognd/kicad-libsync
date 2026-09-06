@@ -8,7 +8,6 @@ created: '2026-09-05'
 priority: medium
 blocked_by:
 - T-0002
-- T-draft-c73563a0
 parent: T-0001
 tier: ticket
 sprint: null

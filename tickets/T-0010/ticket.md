@@ -1,7 +1,7 @@
 ---
 id: T-0010
 title: strata system model and V-model spec graph
-state: queued
+state: in-progress
 kind: docs
 origin: agent
 created: '2026-09-05'

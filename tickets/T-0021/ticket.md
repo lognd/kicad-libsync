@@ -19,10 +19,32 @@ scope:
 - tests/unit/test_archive.py
 - tests/fixtures/NAU7802KGI.zip
 - docs/design/01-vendor-zip-format.md
+- .gitignore
+- docs/design/00-overview.md
+- tests/unit/test_errors.py
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
 no_scope_declared_reason: null
+scope_changes:
+- op: add
+  glob: .gitignore
+  reason: ignore .serena scratch dir; errors.py doc/test closure pulled in by the
+    NoFootprints message change
+  actor: logan
+  at: '2026-09-06'
+- op: add
+  glob: docs/design/00-overview.md
+  reason: ignore .serena scratch dir; errors.py doc/test closure pulled in by the
+    NoFootprints message change
+  actor: logan
+  at: '2026-09-06'
+- op: add
+  glob: tests/unit/test_errors.py
+  reason: ignore .serena scratch dir; errors.py doc/test closure pulled in by the
+    NoFootprints message change
+  actor: logan
+  at: '2026-09-06'
 designated_repro_test: null
 acceptance:
 - text: inspect() recognizes tests/fixtures/NAU7802KGI.zip with one footprint

@@ -1,7 +1,7 @@
 ---
 id: T-0017
 title: claim divergence from T-0008's Done report (1 identit(ies))
-state: queued
+state: dropped
 kind: bug
 origin: agent
 created: '2026-09-05'
@@ -35,3 +35,6 @@ Diverging (rule, file) identit(ies):
 - TEST006: tests/system/test_cli.py
 
 This is a report-honesty finding, not necessarily bad content on main -- the land already published; the tree itself was already covered by this land's own pre-land check plus this sweep's unscoped post-land measurement. Determine whether the claim was a stale/incorrect capture or a real self-introduced regression, fix or refresh accordingly, then dispose the quarantine entry this ticket raised.
+
+## Drop reason
+- 2026-09-05: TEST006 cleared by the coverage stamp refreshed on main right after the T-0008 land; frob check on main is 0 errors

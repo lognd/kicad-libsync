@@ -1,7 +1,7 @@
 ---
 id: T-0006
 title: 'importer.py: orchestrate package -> project with ImportReport'
-state: queued
+state: in-progress
 kind: feature
 origin: agent
 created: '2026-09-05'
@@ -20,10 +20,52 @@ runs_last_parallel_safe_reason: null
 scope:
 - src/kicad_libsync/importer.py
 - tests/integration/test_importer.py
+- src/kicad_libsync/archive.py
+- src/kicad_libsync/project.py
+- src/kicad_libsync/libtable.py
+- src/kicad_libsync/symbols.py
+- src/kicad_libsync/footprints.py
+- docs/design/02-project-library-model.md
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
 no_scope_declared_reason: null
+scope_changes:
+- op: add
+  glob: src/kicad_libsync/archive.py
+  reason: importer wires them, drop satisfied waivers
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/project.py
+  reason: importer wires them, drop satisfied waivers
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/libtable.py
+  reason: importer wires them, drop satisfied waivers
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/symbols.py
+  reason: importer wires them, drop satisfied waivers
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/footprints.py
+  reason: importer wires them, drop satisfied waivers
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: docs/design/02-project-library-model.md
+  reason: importer wires them, drop satisfied waivers
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: tests/integration/test_importer.py
+  reason: importer wires them, drop satisfied waivers
+  actor: logan
+  at: '2026-09-05'
 designated_repro_test: null
 acceptance:
 - text: given a fixture zip and an empty project dir, when imported twice, then the

@@ -1,7 +1,7 @@
 ---
 id: T-0008
 title: 'CLI + App + AppConfig: watch/import/status commands'
-state: queued
+state: in-progress
 kind: feature
 origin: agent
 created: '2026-09-05'
@@ -23,10 +23,51 @@ scope:
 - tests/system/*.py
 - docs/index.md
 - README.md
+- frob.toml
+- src/kicad_libsync/state.py
+- src/kicad_libsync/watcher.py
+- docs/design/04-cli-and-config.md
+- tests/system/test_cli.py
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
 no_scope_declared_reason: null
+scope_changes:
+- op: add
+  glob: frob.toml
+  reason: 'wire watch/import/status commands: remove WIRE001 waivers in state.py/watcher.py
+    now consumed by app.py, update the config doc to final API, add frob.toml docblocks/refs
+    entries, add system CLI tests'
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/state.py
+  reason: 'wire watch/import/status commands: remove WIRE001 waivers in state.py/watcher.py
+    now consumed by app.py, update the config doc to final API, add frob.toml docblocks/refs
+    entries, add system CLI tests'
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/watcher.py
+  reason: 'wire watch/import/status commands: remove WIRE001 waivers in state.py/watcher.py
+    now consumed by app.py, update the config doc to final API, add frob.toml docblocks/refs
+    entries, add system CLI tests'
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: docs/design/04-cli-and-config.md
+  reason: 'wire watch/import/status commands: remove WIRE001 waivers in state.py/watcher.py
+    now consumed by app.py, update the config doc to final API, add frob.toml docblocks/refs
+    entries, add system CLI tests'
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: tests/system/test_cli.py
+  reason: 'wire watch/import/status commands: remove WIRE001 waivers in state.py/watcher.py
+    now consumed by app.py, update the config doc to final API, add frob.toml docblocks/refs
+    entries, add system CLI tests'
+  actor: logan
+  at: '2026-09-05'
 designated_repro_test: null
 acceptance:
 - text: given python -m kicad_libsync import --project <tmp> fixture.zip, when run,

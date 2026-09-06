@@ -33,11 +33,14 @@ scope_changes:
   reason: ratchet lock and doc touch
   actor: logan
   at: '2026-09-05'
+evidence:
+- cmd:frob check --only sys exit=0 sha256=ba70551eb2fd
 designated_repro_test: null
 acceptance:
 - text: given design/kicad-libsync.strata, when frob check runs, then zero SELFAUDIT001
     errors
-  evidence: []
+  evidence:
+  - cmd:frob check --only sys exit=0 sha256=ba70551eb2fd
 threat: null
 component: null
 anchor: false

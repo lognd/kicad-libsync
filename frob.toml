@@ -85,3 +85,7 @@ reason = "read by `uv sync`/`uv run` outside this repo's own tracked-file graph,
 [[refs.entrypoint]]
 path = "tickets/*/ticket.md"
 reason = "ledger v2 per-ticket files are read by frob ticket, never referenced by name from source"
+
+[[refs.entrypoint]]
+path = "tests/fixtures/*"
+reason = "real vendor zips read by path from tests; referenced by name only inside test bodies"

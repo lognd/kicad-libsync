@@ -11,7 +11,7 @@ from kicad_libsync.logging import get_logger
 
 _log = get_logger(__name__)
 
-# frob:waive REF002 reason="symbols.py/libtable.py are the second consumers" follow_up="T-0004"
+# frob:waive REF002 reason="symbols.py is the second consumer" follow_up="T-0004"
 
 
 # frob:doc docs/design/02-project-library-model.md#sexpr

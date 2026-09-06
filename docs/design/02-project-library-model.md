@@ -35,6 +35,8 @@ Parse errors are `SexprError` values, never exceptions.
 
 ## project
 
+<!-- frob:waive DOC006 reason="future-facing: project.py is built by T-0004" -->
+
 (`src/kicad_libsync/project.py`)
 
 ```python
@@ -56,6 +58,8 @@ file -> `ProjectError.AmbiguousProject`.
 
 ## libtable
 
+<!-- frob:waive DOC006 reason="future-facing: libtable.py is built by T-0004" -->
+
 (`src/kicad_libsync/libtable.py`)
 
 Both files share one grammar:
@@ -72,6 +76,8 @@ present with a DIFFERENT uri -> leave alone, return `Ok(False)`, WARNING
 (the user pointed the name somewhere on purpose).
 
 ## symbols
+
+<!-- frob:waive DOC006 reason="future-facing: symbols.py is built by T-0005" -->
 
 (`src/kicad_libsync/symbols.py`)
 
@@ -93,6 +99,8 @@ present with a DIFFERENT uri -> leave alone, return `Ok(False)`, WARNING
 
 ## footprints
 
+<!-- frob:waive DOC006 reason="future-facing: footprints.py is built by T-0005" -->
+
 (`src/kicad_libsync/footprints.py`)
 
 `copy_into(pretty_dir, footprints, overwrite) -> Result[MergeOutcome, FootprintError]`.
@@ -100,6 +108,8 @@ Create the directory if needed. Same skip/overwrite policy as symbols.
 Each file written atomically.
 
 ## importer
+
+<!-- frob:waive DOC006 reason="future-facing: importer.py is built by T-0006" -->
 
 (`src/kicad_libsync/importer.py`)
 

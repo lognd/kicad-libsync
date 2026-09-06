@@ -19,7 +19,7 @@ class SexprError(ErrorSet):
 
 
 # frob:doc docs/design/00-overview.md#errors
-# frob:tests tests/unit/test_archive.py::test_rejects_non_library_zips
+# frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
 # frob:waive WIRE001 reason="consumed by archive.py" follow_up="T-0003"
 class ArchiveError(ErrorSet):
     NotAZip = "The file is not a readable zip archive"
@@ -32,7 +32,7 @@ class ArchiveError(ErrorSet):
 
 
 # frob:doc docs/design/00-overview.md#errors
-# frob:tests tests/unit/test_project.py::test_locate_errors
+# frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
 # frob:waive WIRE001 reason="consumed by project.py" follow_up="T-0004"
 class ProjectError(ErrorSet):
     NotAProject = "No .kicad_pro found at or under the given path"
@@ -41,7 +41,7 @@ class ProjectError(ErrorSet):
 
 
 # frob:doc docs/design/00-overview.md#errors
-# frob:tests tests/unit/test_libtable.py::test_malformed_table_is_an_error
+# frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
 # frob:waive WIRE001 reason="consumed by libtable.py" follow_up="T-0004"
 class LibTableError(ErrorSet):
     TableReadFailed = "The lib table could not be read"
@@ -50,7 +50,7 @@ class LibTableError(ErrorSet):
 
 
 # frob:doc docs/design/00-overview.md#errors
-# frob:tests tests/unit/test_symbols.py::test_malformed_inputs_are_errors
+# frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
 # frob:waive WIRE001 reason="consumed by symbols.py" follow_up="T-0005"
 class SymbolError(ErrorSet):
     VendorMalformed = "The vendor .kicad_sym did not parse"
@@ -60,14 +60,14 @@ class SymbolError(ErrorSet):
 
 
 # frob:doc docs/design/00-overview.md#errors
-# frob:tests tests/unit/test_footprints.py::test_unwritable_dir_is_an_error
+# frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
 # frob:waive WIRE001 reason="consumed by footprints.py" follow_up="T-0005"
 class FootprintError(ErrorSet):
     FootprintWriteFailed = "A .kicad_mod could not be written into the .pretty dir"
 
 
 # frob:doc docs/design/00-overview.md#errors
-# frob:tests tests/unit/test_state.py::test_malformed_state_is_an_error
+# frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
 # frob:waive WIRE001 reason="consumed by state.py" follow_up="T-0007"
 class StateError(ErrorSet):
     StateReadFailed = "The processed-state file could not be read"
@@ -77,7 +77,7 @@ class StateError(ErrorSet):
 
 
 # frob:doc docs/design/00-overview.md#errors
-# frob:tests tests/unit/test_app.py::test_bad_poll_is_a_config_error
+# frob:tests tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
 # frob:waive WIRE001 reason="consumed by app/config.py" follow_up="T-0008"
 class ConfigError(ErrorSet):
     NoDownloadsDir = "No Downloads directory was given and none could be detected"

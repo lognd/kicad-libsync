@@ -22,6 +22,10 @@ scope:
 - docs/index.md
 - frob.toml
 - scripts/bump_version.py
+- tests/unit/test_errors.py
+- tests/integration/test_sexpr_fixtures.py
+- tests/fixtures/*
+- src/kicad_libsync/__init__.py
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -50,6 +54,26 @@ scope_changes:
 - op: add
   glob: scripts/bump_version.py
   reason: doc anchors for sexpr/errors plus gate config the first ticket has to establish
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: tests/unit/test_errors.py
+  reason: uniqueness test for error sets and fixture-backed integration test for sexpr
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: tests/integration/test_sexpr_fixtures.py
+  reason: uniqueness test for error sets and fixture-backed integration test for sexpr
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: tests/fixtures/*
+  reason: uniqueness test for error sets and fixture-backed integration test for sexpr
+  actor: logan
+  at: '2026-09-05'
+- op: add
+  glob: src/kicad_libsync/__init__.py
+  reason: uniqueness test for error sets and fixture-backed integration test for sexpr
   actor: logan
   at: '2026-09-05'
 designated_repro_test: null

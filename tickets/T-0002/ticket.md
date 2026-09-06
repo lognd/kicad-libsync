@@ -76,6 +76,11 @@ scope_changes:
   reason: uniqueness test for error sets and fixture-backed integration test for sexpr
   actor: logan
   at: '2026-09-05'
+evidence:
+- tests/unit/test_sexpr.py::test_parse_round_trips_through_dumps
+- tests/unit/test_sexpr.py::test_parse_errors_are_values
+- tests/unit/test_errors.py::test_variant_names_are_unique_across_sets
+- tests/integration/test_sexpr_fixtures.py::test_error_sets_render_for_users
 designated_repro_test: null
 acceptance:
 - text: given a KiCad .kicad_sym text, when parsed and dumped, then re-parsing yields

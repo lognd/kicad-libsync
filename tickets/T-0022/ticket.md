@@ -139,6 +139,9 @@ scope_changes:
     py.typed) plus the pre-existing frob.lock gap surfaced by the same gate run.
   actor: logan
   at: '2026-09-07'
+evidence:
+- cmd:bash -c "rm -rf dist && uv build && uvx twine check --strict dist/*" exit=0
+  sha256=580ba7c101f4
 designated_repro_test: null
 acceptance:
 - text: given a new user, when they read the docs, then they can configure the watcher

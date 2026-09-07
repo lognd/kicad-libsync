@@ -142,6 +142,8 @@ scope_changes:
 evidence:
 - cmd:bash -c "rm -rf dist && uv build && uvx twine check --strict dist/*" exit=0
   sha256=580ba7c101f4
+- cmd:bash -c 'echo local-path-hits=$(git grep -I -c -e /home/logan -e /mnt/c/Users/logan
+  | wc -l); ! git grep -I -e /home/logan -e /mnt/c/Users/logan' exit=0 sha256=02c041577261
 designated_repro_test: null
 acceptance:
 - text: given a new user, when they read the docs, then they can configure the watcher

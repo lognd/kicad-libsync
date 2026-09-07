@@ -36,6 +36,7 @@ scope:
 - src/kicad_libsync/logging/filter.py
 - src/kicad_libsync/logging/formatter.py
 - src/kicad_libsync/logging/logger.py
+- frob.toml
 scope_breadth_ack: false
 scope_breadth_ack_reason: null
 no_scope_declared: false
@@ -130,6 +131,12 @@ scope_changes:
   reason: Publishing to PyPI pulled in the packaging surface (LICENSE, py.typed, Makefile
     upload target) and the SnapMagic doc-drift fix; the src/ and strata entries are
     doc-anchor closure for the docs already in scope, not code edits.
+  actor: logan
+  at: '2026-09-07'
+- op: add
+  glob: frob.toml
+  reason: REF001 entrypoint registrations for the files this ticket adds (LICENSE,
+    py.typed) plus the pre-existing frob.lock gap surfaced by the same gate run.
   actor: logan
   at: '2026-09-07'
 designated_repro_test: null

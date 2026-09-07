@@ -6,8 +6,8 @@ the KiCad project you are working on -- footprints into `<Lib>.pretty`,
 symbols into `<Lib>.kicad_sym`, both registered in the project lib tables.
 
 ```bash
-uv tool install /home/logan/projects/kicad-libsync
-kicad-libsync watch --project /mnt/c/Users/logan/Projects/LLC/stpone-schematic
+uv tool install <root-directory-of-repository>
+kicad-libsync watch --project <root-directory-of-kicad-project>
 kicad-libsync import --project . vendor-package.zip
 kicad-libsync status --project .
 kicad-libsync remove --project . SOME_PART

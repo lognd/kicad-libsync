@@ -144,6 +144,9 @@ evidence:
   sha256=580ba7c101f4
 - cmd:bash -c 'echo local-path-hits=$(git grep -I -c -e /home/logan -e /mnt/c/Users/logan
   | wc -l); ! git grep -I -e /home/logan -e /mnt/c/Users/logan' exit=0 sha256=02c041577261
+- cmd:bash -c "git grep -I -c -E \"/home/log[a]n|/mnt/c/Users/log[a]n\" -- \":(exclude)tickets\";
+  echo no-local-path-hits-above; ! git grep -I -q -E \"/home/log[a]n|/mnt/c/Users/log[a]n\"
+  -- \":(exclude)tickets\"" exit=0 sha256=b56d95cad818
 designated_repro_test: null
 acceptance:
 - text: given a new user, when they read the docs, then they can configure the watcher
@@ -154,7 +157,10 @@ acceptance:
   evidence: []
 - text: given the tracked docs, when searched for machine-specific absolute paths,
     then none remain
-  evidence: []
+  evidence:
+  - cmd:bash -c "git grep -I -c -E \"/home/log[a]n|/mnt/c/Users/log[a]n\" -- \":(exclude)tickets\";
+    echo no-local-path-hits-above; ! git grep -I -q -E \"/home/log[a]n|/mnt/c/Users/log[a]n\"
+    -- \":(exclude)tickets\"" exit=0 sha256=b56d95cad818
 threat: null
 component: null
 anchor: false

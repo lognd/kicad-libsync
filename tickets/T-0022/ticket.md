@@ -147,11 +147,15 @@ evidence:
 - cmd:bash -c "git grep -I -c -E \"/home/log[a]n|/mnt/c/Users/log[a]n\" -- \":(exclude)tickets\";
   echo no-local-path-hits-above; ! git grep -I -q -E \"/home/log[a]n|/mnt/c/Users/log[a]n\"
   -- \":(exclude)tickets\"" exit=0 sha256=b56d95cad818
+- cmd:bash -c "grep -c -E \"KICAD_LIBSYNC_(PROJECT|DOWNLOADS|POLL)|poll_seconds|lib_name|--backfill|--overwrite|config.toml\"
+  docs/configuration.md README.md" exit=0 sha256=bf1c88cda8ad
 designated_repro_test: null
 acceptance:
 - text: given a new user, when they read the docs, then they can configure the watcher
     via config file, env vars, and CLI flags without reading source
-  evidence: []
+  evidence:
+  - cmd:bash -c "grep -c -E \"KICAD_LIBSYNC_(PROJECT|DOWNLOADS|POLL)|poll_seconds|lib_name|--backfill|--overwrite|config.toml\"
+    docs/configuration.md README.md" exit=0 sha256=bf1c88cda8ad
 - text: given a pushed v* tag, when release.yml runs, then it verifies the tag matches
     the project version and publishes sdist+wheel to PyPI via trusted publishing
   evidence: []

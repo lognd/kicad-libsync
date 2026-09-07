@@ -1,6 +1,6 @@
 # 01 -- Vendor Zip Format (`archive.py`)
 
-## Recognized layout (Ultra Librarian, KiCad v6+ export)
+## Recognized layouts (Ultra Librarian and SnapMagic, KiCad v6+ exports)
 
 Observed in real downloads (see `tests/fixtures/`):
 

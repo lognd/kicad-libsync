@@ -10,9 +10,9 @@ Three layers, all under `tests/`, all bound with `frob:tests` directives.
 
 ## Fixtures
 
-`tests/fixtures/` holds two REAL Ultra Librarian zips copied from
-Downloads (`2N7002NXAKR.zip`, `22R336MC.zip`; 20 KB total) plus one
-`not-a-library.zip` containing a text file. Never mock `zipfile`.
+`tests/fixtures/` holds REAL vendor zips (`2N7002NXAKR.zip`,
+`22R336MC.zip`; 20 KB total) plus one `not-a-library.zip` containing a
+text file. Never mock `zipfile`.
 
 ## Watcher testing
 

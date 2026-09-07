@@ -24,7 +24,8 @@ intent wins -- file a note in the doc and ask the human.
   the project `sym-lib-table` / `fp-lib-table`. Not the global tables.
 - The watcher POLLS. `/mnt/c` (DrvFs) does not deliver inotify events.
 - Idempotency is by zip content hash, recorded in a per-user state file.
-- Only the Ultra Librarian `KiCADv6/` layout is recognized in v0.1; every
+- Only the Ultra Librarian `KiCADv6/` and SnapMagic flat-root layouts are
+  recognized in v0.1; every
   other zip is logged at DEBUG and ignored.
 
 See [00-overview.md](00-overview.md) for the reasoning behind each.

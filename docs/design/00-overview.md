@@ -18,16 +18,16 @@ doing it by hand.
 Typical use (WSL, KiCad on Windows):
 
 ```bash
-uv tool install /home/logan/projects/kicad-libsync
-kicad-libsync watch --project /mnt/c/Users/logan/Projects/LLC/stpone-schematic
-kicad-libsync import --project ... /mnt/c/Users/logan/Downloads/2N7002NXAKR.zip
+uv tool install kicad-libsync
+kicad-libsync watch --project /mnt/c/Users/<you>/Projects/<board>
+kicad-libsync import --project . /mnt/c/Users/<you>/Downloads/2N7002NXAKR.zip
 ```
 
 ## Locked decisions
 
 | Decision | Choice | Why |
 |---|---|---|
-| Library location | Project-local `<Lib>.kicad_sym` + `<Lib>.pretty` next to the `.kicad_pro`, `${KIPRJMOD}` URIs in the project lib tables | The project is self-contained and portable (git clone works on any machine). The existing projects already do this (`Stpone.kicad_sym`, `Arduino_MountingHole.pretty`). The one-lib-per-part global userlibs approach that predates this tool pollutes the global tables and does not travel with the project. |
+| Library location | Project-local `<Lib>.kicad_sym` + `<Lib>.pretty` next to the `.kicad_pro`, `${KIPRJMOD}` URIs in the project lib tables | The project is self-contained and portable (git clone works on any machine); this is also the layout KiCad's own project-library convention produces. The one-lib-per-part global userlibs approach that predates this tool pollutes the global tables and does not travel with the project. |
 | Library name | Defaults to the `.kicad_pro` stem, overridable with `--lib-name` | One place to look; matches KiCad's own "project library" convention. |
 | One merged symbol library | All vendor symbols are appended into the single project `.kicad_sym` | Ultra Librarian names each `.kicad_sym` after a timestamp, so keeping them separate produces meaningless library names. |
 | Footprint reference rewrite | The symbol `Footprint` property becomes `<Lib>:<footprint>` | Vendor exports write a bare footprint name; KiCad needs `LIB:NAME` to resolve it. |

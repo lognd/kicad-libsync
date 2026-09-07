@@ -99,3 +99,15 @@ forwarded = "kicad_libsync.app.config:FORWARDED_FIELD_NAMES"
 [[refs.entrypoint]]
 path = "docs/design/registry/capability-via-ratchet.lock.json"
 reason = "read by frob's SYS111 via-ratchet gate, never referenced by name from source"
+
+[[refs.entrypoint]]
+path = "frob.lock"
+reason = "frob's own generated lock state, read by frob outside this repo's tracked-file graph, never referenced by name from source"
+
+[[refs.entrypoint]]
+path = "LICENSE"
+reason = "read by humans, GitHub, and PyPI packaging; the pyproject/README mentions are metadata, not a code reference"
+
+[[refs.entrypoint]]
+path = "src/kicad_libsync/py.typed"
+reason = "PEP 561 marker; its only consumers are type checkers reading the installed package, so the single pyproject.toml package-data anchor is correct, not fragile"

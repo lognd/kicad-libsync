@@ -2,7 +2,7 @@
 id: T-0022
 title: 'Publishable docs: watcher configuration guide, PyPI release workflow, no local
   paths'
-state: in-progress
+state: done
 kind: docs
 origin: human
 created: '2026-09-07'

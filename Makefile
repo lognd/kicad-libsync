@@ -37,9 +37,13 @@ clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null; true
 	find . -type d -name "*.egg-info" -exec rm -rf {} + 2>/dev/null; true
 
+# Publishing happens in CI (.github/workflows/release.yml, OIDC trusted
+# publishing) and nowhere else -- a second local `uv publish` path would be
+# a token to leak and a build to desync. This target only bumps, commits,
+# and pushes the tag that triggers it.
 upload: clean
 	@NEW=$$(uv run python scripts/bump_version.py); \
 	git add pyproject.toml; \
 	git commit -m "chore: bump version to $$NEW"; \
-	git push; \
-	uv build && uv publish
+	git tag "v$$NEW"; \
+	git push && git push origin "v$$NEW"

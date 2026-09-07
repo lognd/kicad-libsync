@@ -149,6 +149,8 @@ evidence:
   -- \":(exclude)tickets\"" exit=0 sha256=b56d95cad818
 - cmd:bash -c "grep -c -E \"KICAD_LIBSYNC_(PROJECT|DOWNLOADS|POLL)|poll_seconds|lib_name|--backfill|--overwrite|config.toml\"
   docs/configuration.md README.md" exit=0 sha256=bf1c88cda8ad
+- cmd:bash -c "grep -n -E \"verify-tag|GITHUB_REF_NAME|project.version|pypa/gh-action-pypi-publish|uv
+  build\" .github/workflows/release.yml" exit=0 sha256=b14fc819aceb
 designated_repro_test: null
 acceptance:
 - text: given a new user, when they read the docs, then they can configure the watcher
@@ -158,7 +160,9 @@ acceptance:
     docs/configuration.md README.md" exit=0 sha256=bf1c88cda8ad
 - text: given a pushed v* tag, when release.yml runs, then it verifies the tag matches
     the project version and publishes sdist+wheel to PyPI via trusted publishing
-  evidence: []
+  evidence:
+  - cmd:bash -c "grep -n -E \"verify-tag|GITHUB_REF_NAME|project.version|pypa/gh-action-pypi-publish|uv
+    build\" .github/workflows/release.yml" exit=0 sha256=b14fc819aceb
 - text: given the tracked docs, when searched for machine-specific absolute paths,
     then none remain
   evidence:
